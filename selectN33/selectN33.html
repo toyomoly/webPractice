@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>新人研修で指名</title>
+    <style>
+        body {
+            font-size: 100px;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    window.addEventListener("load", function () {
+        var list = [
+            "n3301 aaa", "n3302 aaa", "n3303 aaa", "n3304 aaa", "n3305 aaa",
+            "n3306 aaa", "n3307 aaa", "n3308 aaa", "n3309 aaa", "n3310 aaa",
+            "n3311 aaa", "n3312 aaa", "n3313 aaa", "n3314 aaa", "n3315 aaa",
+            "n3316 aaa", "n3317 aaa", "n3318 aaa", "n3319 aaa", "n3320 aaa",
+            "n3321 aaa", "n3322 aaa", "n3323 aaa", "n3324 aaa", "n3325 aaa",
+            "n3326 aaa", "n3327 aaa", "n3328 aaa", "n3329 aaa", "n3330 aaa", "n3331 aaa"
+        ];
+        document.querySelector("body").innerHTML = list[Math.floor(Math.random() * list.length)];
+    }, false);
+</script>
+</body>
+</html>

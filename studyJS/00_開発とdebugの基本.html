@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>JavaScript勉強会</title>
+    <style>
+        .con {
+            padding: 20px;
+            margin-bottom: 50px;
+            background-color: #f0f0f5;
+        }
+        .caution {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="con">
+        <h3>開発者ツールとconsoleの基本(Chrome前提)</h3>
+        <ul>
+            <li id="li01">F12 or Ctrl+Shift+I で開発者ツール</li>
+            <li id="li02">alert("hoge")　<button>確認</button></li>
+            <li id="li03">console.log("hoge")　<button>確認</button></li>
+            <li id="li04">console.dir({hoge: 1, fuga: 2})　<button>確認</button></li>
+            <li id="li05">Watch Expressions で変数や式の確認が可能</li>
+            <li id="li06">consoleへの直接入力で、色々と実行可能</li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>BreakPointsとステップ実行(Chrome前提)</h3>
+        <ul>
+            <li id="li11">debugger　<button>確認</button></li>
+            <li id="li12">BreakPointsの使い方　<button>確認</button></li>
+            <li id="li13">DOM BreakPointsの使い方　<button>確認</button></li>
+            <li id="li14">F8：実行・停止、F10：ステップオーバー、F11：ステップイン、Shift+F11：ステップアウト</li>
+            <li id="li15" class="caution">※F5はブラウザの更新なので注意（VSとショートカットキーが違う）</li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>IEの場合は・・・</h3>
+        <ul>
+            <li>IE8以上ならF12で開発者ツール、consoleも使える</li>
+            <li>debuggerもVisualStudio等と併用で利用可能（いつからできたか不明だが最低でもIE6+VS2005のときから可能だった）</li>
+            <li>インターネットオプションの詳細設定の「スクリプトのデバッグを使用しない」のチェックを外す</li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>その他</h3>
+        <ul>
+            <li>エディターはVS2012が今のところ最強？　補完入力や整形（Ctrl+K → D）が便利</li>
+        </ul>
+    </div>
+
+    <script>
+
+        var a = 100;
+        var b = {
+            x: 10,
+            y: 20
+        }
+
+        window.addEventListener("load", function () {
+
+            document.querySelector("#li02 button").addEventListener("click", function () {
+                alert("hoge");
+            });
+
+            document.querySelector("#li03 button").addEventListener("click", function () {
+                console.log("hoge");
+            });
+
+            document.querySelector("#li04 button").addEventListener("click", function () {
+                console.dir({hoge: 1, fuga: 2});
+            });
+
+            document.querySelector("#li11 button").addEventListener("click", function () {
+                debugger;
+            });
+
+            document.querySelector("#li12 button").addEventListener("click", function () {
+                // ここにブレークポイントを張る
+            });
+
+            document.querySelector("#li13 button").addEventListener("click", function () {
+                // 要素の検証 -> Break on... -> Node removal
+                this.parentNode.removeChild(this);
+            });
+
+        }, false);
+
+    </script>
+</body>
+</html>
