@@ -1,0 +1,655 @@
+.noSelect {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+li {
+    display: block;
+}
+
+a.button {
+    float: left;
+    margin: 2px;
+    padding: 2px 5px;
+    font-size: 16px;
+    color: #000;
+    text-shadow: none;
+    -moz-border-radius: .50em;
+    -webkit-border-radius: .50em;
+    border-radius: .50em;
+    background-color: #e3e3e3;
+    cursor: pointer;
+    font-weight: normal;
+    height: 24px;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+a.button.on {
+    background-color: #4094ff;
+    color: #fff;
+}
+
+a.button:hover {
+    background-color: #ff6c43;
+    color: #fff;
+}
+
+div.exInputBox {
+    position: relative;
+    height: 32px;
+    float: left;
+}
+
+div.exInputBox input {
+    width: 200px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
+    margin-top: 2px;
+    padding-left: 5px;
+    padding-right: 24px;
+    display: block;
+    -webkit-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+       -moz-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+            box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+    -webkit-border-radius: .6em;
+       -moz-border-radius: .6em;
+            border-radius: .6em;
+    border: 1px solid #bbb;
+}
+
+div.exInputBox div.delval {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+    margin: 0px auto;
+    height:18px;
+    width:18px;
+    background: #666;
+    background: rgba(0,0,0,.4);
+    background-image: url(images/icons-18-white.png);
+    background-repeat: no-repeat;
+    -webkit-border-radius: 9px;
+       -moz-border-radius: 9px;
+            border-radius: 9px;
+    background-position: -72px 50%;
+    cursor: pointer;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+#MainPanel {
+}
+
+#MainPanel #TopMenu {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 32px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #222;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+}
+
+#MainPanel #TopMenu #SearchMain {
+    height: 32px;
+    overflow: hidden;
+    float: left;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox {
+    height: 32px;
+    width: 300px;
+    overflow: hidden;
+    float: left;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox input#SearchKeyword {
+    margin-left: 4px;
+    width: 260px;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList {
+    position: fixed;
+    top: 32px;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: 0px; /* animate 0~320px */
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #e3e3e3;
+    border: 1px solid #333;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li {
+    height: 32px;
+    width: 289px;
+    overflow: hidden;
+    line-height: 32px;
+    padding-left: 10px;
+    cursor: pointer;
+    background-color: #e3e3e3;
+    color: #000;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li:hover {
+    background-color: #ff6c43;
+    color: #fff;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.openBtn,
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.closeBtn {
+    padding: 0px 10px;
+    width: 279px;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.openBtn .icon,
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.closeBtn .icon {
+    margin: 7px auto;
+    height:18px;
+    width:18px;
+    background: #666;
+    background: rgba(0,0,0,.4);
+    background-image: url(images/icons-18-white.png);
+    background-repeat: no-repeat;
+    -webkit-border-radius: 9px;
+       -moz-border-radius: 9px;
+            border-radius: 9px;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.openBtn .icon {
+    background-position: -216px 50%;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.closeBtn .icon {
+    background-position: -180px 50%;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchIcon {
+    height: 32px;
+    width: 34px;
+    overflow: hidden;
+    float: left;
+    cursor: pointer;
+    background-image: url(images/icons-36-white.png);
+    background-repeat: no-repeat;
+    background-position: -1223px 50%;
+}
+
+#MainPanel #TopMenu #SearchMain #HomeIcon {
+    height: 32px;
+    width: 34px;
+    overflow: hidden;
+    float: left;
+    cursor: pointer;
+    background-image: url(images/icons-36-white.png);
+    background-repeat: no-repeat;
+    background-position: -1151px 50%;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox:hover,
+#MainPanel #TopMenu #SearchMain #SearchIcon:hover,
+#MainPanel #TopMenu #SearchMain #HomeIcon:hover {
+    background-color: #444;
+}
+
+#MainPanel #TopMenu #ConfigMenu {
+    height: 32px;
+    width: 34px;
+    overflow: hidden;
+    float: right;
+}
+
+#MainPanel #TopMenu #ConfigMenu #ConfigIcon {
+    height: 32px;
+    width: 34px;
+    cursor: pointer;
+    background-image: url(images/icons-36-white.png);
+    background-repeat: no-repeat;
+    background-position: -576px 50%;
+}
+
+#MainPanel #TopMenu #ConfigMenu #ConfigIcon:hover {
+    background-color: #444;
+}
+
+#MainPanel #TopMenu #ConfigMenu #SelectConfigList {
+    position: fixed;
+    top: 32px;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    height: 0px; /* animate 0~96px */
+    background-color: #e3e3e3;
+    border: 1px solid #333;
+}
+
+#MainPanel #TopMenu #ConfigMenu #SelectConfigList li {
+    height: 32px;
+    width: 200px;
+    overflow: hidden;
+    line-height: 32px;
+    padding-left: 10px;
+    cursor: pointer;
+    background-color: #e3e3e3;
+    color: #000;
+}
+
+#MainPanel #TopMenu #ConfigMenu #SelectConfigList li:hover {
+    background-color: #ff6c43;
+    color: #fff;
+}
+
+#MainPanel #TopMenu #LastUpdate {
+    height: 32px;
+    width: 180px;
+    overflow: hidden;
+    float: right;
+    cursor: pointer;
+}
+
+#MainPanel #TopMenu #LastUpdate:hover {
+    background-color: #444;
+}
+
+#MainPanel #TopMenu #LastUpdate.waiting {
+    background-color: #222;
+}
+
+#MainPanel #TopMenu #LastUpdate #LastUpdateTitle,
+#MainPanel #TopMenu #LastUpdate #LastUpdateTime {
+    height: 16px;
+    width: 170px;
+    line-height: 16px;
+    overflow: hidden;
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+#MainPanel #TopMenu #LastUpdate.waiting #LastUpdateTitle,
+#MainPanel #TopMenu #LastUpdate.waiting #LastUpdateTime {
+    display: none;
+}
+
+#MainPanel #TopMenu #LastUpdate #LastUpdateWaiting {
+    height: 24px;
+    width: 24px;
+    margin-top: 4px;
+    margin-left: 72px;
+    background-image: url(images/loadinfo.net.gif);
+    background-repeat: no-repeat;
+    display: none;
+}
+
+#MainPanel #TopMenu #LastUpdate.waiting #LastUpdateWaiting {
+    display: block;
+}
+
+#MainPanel #ListPanel {
+    margin: 0;
+    padding: 0;
+}
+
+#MainPanel #ListPanel li:first-child {
+    margin-top: 32px;
+}
+
+#MainPanel #ListPanel li {
+    list-style: none;
+    color: #000;
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    overflow: hidden;
+    padding: 3px;
+}
+    @media screen and (max-width:800px) {
+        #MainPanel #ListPanel li { width: 800px; } }
+
+#MainPanel #ListPanel li.theme1 {
+    border: 1px solid #999;
+    background: #fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #fff ), to( #fff ));
+    background-image: -webkit-linear-gradient( #fff , #fff );
+    background-image:    -moz-linear-gradient( #fff , #fff );
+    background-image:     -ms-linear-gradient( #fff , #fff );
+    background-image:      -o-linear-gradient( #fff , #fff );
+    background-image:         linear-gradient( #fff , #fff );
+}
+
+#MainPanel #ListPanel li.theme2 {
+    border: 1px solid #d7a022;
+    background: #fff9af;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #fffadf ), to( #fff3a5 ));
+    background-image: -webkit-linear-gradient( #fffadf , #fff3a5 );
+    background-image:    -moz-linear-gradient( #fffadf , #fff3a5 );
+    background-image:     -ms-linear-gradient( #fffadf , #fff3a5 );
+    background-image:      -o-linear-gradient( #fffadf , #fff3a5 );
+    background-image:         linear-gradient( #fffadf , #fff3a5 );
+}
+
+#MainPanel #ListPanel li.theme3 {
+    border: 1px solid #f76942;
+    background: #ffb9bf;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #ffbfbb ), to( #ff968f ));
+    background-image: -webkit-linear-gradient( #ffbfbb , #ff968f );
+    background-image:    -moz-linear-gradient( #ffbfbb , #ff968f );
+    background-image:     -ms-linear-gradient( #ffbfbb , #ff968f );
+    background-image:      -o-linear-gradient( #ffbfbb , #ff968f );
+    background-image:         linear-gradient( #ffbfbb , #ff968f );
+}
+
+#MainPanel #ListPanel li.theme4 {
+    border: 1px solid #666;
+    background: #bbb;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #ccc ), to( #bbb ));
+    background-image: -webkit-linear-gradient( #ccc , #bbb );
+    background-image:    -moz-linear-gradient( #ccc , #bbb );
+    background-image:     -ms-linear-gradient( #ccc , #bbb );
+    background-image:      -o-linear-gradient( #ccc , #bbb );
+    background-image:         linear-gradient( #ccc , #bbb );
+}
+
+#MainPanel #ListPanel li .block-a {
+    float: left;
+    width: 50px;
+}
+
+#MainPanel #ListPanel li .block-a .block-a-1 {
+    width: 50px;
+    height: 72px;
+    overflow: hidden;
+}
+
+#MainPanel #ListPanel li .block-b {
+    float: left;
+    width: 80px;
+}
+
+#MainPanel #ListPanel li .block-c {
+    float: left;
+    width: 150px;
+}
+
+#MainPanel #ListPanel li .block-d {
+    float: left;
+    width: 200px;
+}
+
+#MainPanel #ListPanel li .block-o {
+    float: left;
+    width: 46px;
+    overflow: hidden;
+}
+
+#MainPanel #ListPanel li .block-o .block-o-1 {
+    height: 32px;
+    margin-top: 2px;
+}
+
+#MainPanel #ListPanel li .block-o .block-o-1 a.button {
+    width: 32px;
+    overflow: hidden;
+    cursor: default;
+    background: #666;
+    background: rgba(0,0,0,.4);
+    color: #fff;
+}
+
+#MainPanel #ListPanel li .block-p {
+    margin-left: 528px
+}
+
+#MainPanel #ListPanel li .block-p .textdata {
+    padding: 3px 0px 3px 10px;
+    margin-top: 3px;
+    line-height: 1;
+}
+
+#MainPanel #ListPanel li .block-s {
+    float: left;
+}
+
+#MainPanel #ListPanel li .block-s .block-s-1,
+#MainPanel #ListPanel li .block-s .block-s-2,
+#MainPanel #ListPanel li .block-s .block-s-3,
+#MainPanel #ListPanel li .block-s .block-s-4,
+#MainPanel #ListPanel li .block-s .block-s-5 {
+    width: 300px;
+    height: 32px;
+    overflow: hidden;
+}
+
+#MainPanel #ListPanel li .block-s input {
+    width: 200px;
+    margin-left: 2px;
+}
+
+#MainPanel #ListPanel li .block-s a.button {
+    width: 32px;
+    overflow: hidden;
+}
+
+#MainPanel #ListPanel li .block-s .block-s-5 a.button.update {
+    float: right;
+}
+
+#MainPanel #ListPanel .more {
+    padding: 7px 0px;
+    cursor: pointer;
+    background-color: #e3e3e3;
+}
+
+#MainPanel #ListPanel .more:hover {
+    background-color: #ff6c43;
+    color: #fff;
+}
+
+#MainPanel #ListPanel .more .icon {
+    margin: 0px auto;
+    height:18px;
+    width:18px;
+    background: #666;
+    background: rgba(0,0,0,.4);
+    background-image: url(images/icons-18-white.png);
+    background-repeat: no-repeat;
+    -webkit-border-radius: 9px;
+       -moz-border-radius: 9px;
+            border-radius: 9px;
+    background-position: -216px 50%;
+}
+
+#MainPanel #UpdateStatusBox {
+    position: absolute;
+    width: 138px;
+    height: 64px;
+    background: rgba(0,0,0,0);
+}
+
+#MainPanel #UpdateStatusBox a.button {
+    position: absolute;
+    margin-left: 2px;
+    margin-top: 2px;
+    width: 32px;
+}
+
+#MainPanel #UpdateStatusBox a.button.copy,
+#MainPanel #UpdateStatusBox a.button.paste {
+    font-size: 12px;
+    height: 20px;
+    padding: 4px 5px;
+}
+
+#MainPanel #UpdateStatusBox .anti-hover {
+    position: absolute;
+    width: 48px;
+    height: 34px;
+    background: rgba(0,0,0,0);
+}
+
+#MainPanel #ConfigMyList,
+#MainPanel #ConfigMySection,
+#MainPanel #ConfigEtc {
+    margin: 0;
+    padding: 0;
+}
+
+#MainPanel #ConfigMyList .back,
+#MainPanel #ConfigMySection .back,
+#MainPanel #ConfigEtc .back {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #555;
+    z-index: -1;
+}
+
+#MainPanel #ConfigMyList .summary,
+#MainPanel #ConfigMySection .summary,
+#MainPanel #ConfigEtc .summary {
+    width: 350px;
+    height: 80px;
+    margin: 0 auto;
+    padding-top: 50px;
+    color: #fff;
+}
+
+#MainPanel #ConfigMyList .inputBox,
+#MainPanel #ConfigMySection .buttonBox,
+#MainPanel #ConfigEtc .inputBox {
+    width: 350px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+
+#MainPanel #ConfigMyList .inputBox a.button,
+#MainPanel #ConfigMySection .buttonBox a.button,
+#MainPanel #ConfigEtc .inputBox a.button {
+    float: none;
+    display: block;
+}
+
+#MainPanel #ConfigMyList .inputBox .title {
+    color: #fff;
+}
+
+#MainPanel #ConfigMyList .inputBox input.inputId {
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
+    margin-top: 2px;
+    padding-left: 5px;
+    width: 100px;
+    -webkit-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+       -moz-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+            box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+    -webkit-border-radius: .6em;
+       -moz-border-radius: .6em;
+            border-radius: .6em;
+    border: 1px solid #bbb;
+}
+
+#MainPanel #ConfigMyList .inputBox .dispName {
+    padding-left: 15px;
+    color: #fff;
+}
+
+#MainPanel #ConfigMyList .inputBox a.button.save,
+#MainPanel #ConfigMySection .buttonBox a.button.save,
+#MainPanel #ConfigEtc .inputBox a.button.save {
+    margin-bottom: 30px;
+}
+
+#MainPanel #ConfigEtc .inputBox .title {
+    clear: left;
+    color: #fff;
+}
+
+#MainPanel #ConfigEtc .inputBox a.button.config {
+    float: left;
+    width: 100px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
+#MainPanel #ConfigEtc .inputBox textarea {
+    height: 200px;
+    width: 300px;
+    font-size: 12px;
+    -webkit-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+       -moz-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+            box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+    -webkit-border-radius: .6em;
+       -moz-border-radius: .6em;
+            border-radius: .6em;
+    border: 1px solid #bbb;
+    display: none;
+}
+
+
+.PopupPanel {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-image: url(images/33380b.png);
+    background-repeat: repeat;
+}
+
+.PopupPanel .popupContain {
+    width: 300px;
+    height: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.PopupPanel .popupContain .buttonBox {
+    margin: 0;
+    width: 300px;
+    height: 80%;
+    overflow-y: auto;
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 10px;
+}
+
+.PopupPanel .popupContain .buttonBox a.button.popupSelect {
+    float: none;
+    display: block;
+}
+
+.PopupPanel .popupContain .buttonBox .pooupnichiji-timebox span {
+    color: #fff;
+}
+
+.PopupPanel .popupContain .buttonBox .pooupnichiji-timebox select {
+    height: 24px;
+    font-size: 16px;
+    width: 100px;
+}
