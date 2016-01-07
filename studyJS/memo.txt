@@ -1,0 +1,2 @@
+JavaScript 配列 (Array) の反復的なメソッド
+http://www.serendip.ws/archives/4732

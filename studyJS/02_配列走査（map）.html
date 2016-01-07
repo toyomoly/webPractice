@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>JavaScript勉強会</title>
+    <style>
+        .con {
+            padding: 20px;
+            margin-bottom: 50px;
+            background-color: #f0f0f5;
+            font-family: "メイリオ";
+        }
+        .caution {
+            color: red;
+        }
+        .comment {
+            color: #99ff99;
+        }
+        .code {
+            font-size: x-large;
+            background-color: #ddddff;
+        }
+    </style>
+</head>
+<body>
+    <div class="con">
+        <h3>基本のforループ</h3>
+        <div class="code">
+            var result = [];<br />
+            var hoge = ["hoge", "fuga", "piyo"];<br />
+            for (var i=0, len=hoge.length; i&lt;len; i++) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;result.push({name: hoge[i]});<br />
+            }
+        </div>
+        <ul>
+            <li>普通</li>
+            <li id="li01"><button>確認</button></li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>Array.map</h3>
+        <div class="code">
+            var hoge = ["hoge", "fuga", "piyo"];<br />
+            var result = hoge.map(function (ele, idx, ary) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;return {name: ele};<br />
+            });
+        </div>
+        <ul>
+            <li>Arrayのメソッド</li>
+            <li>今時はコレを使うのが一番いい？</li>
+            <li id="li02"><button>確認</button></li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>$.map</h3>
+        <div class="code">
+            var hoge = ["hoge", "fuga", "piyo"];<br />
+            var result = $.map(hoge, function (ele, idx) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;return {name: ele};<br />
+            });
+        </div>
+        <ul>
+            <li>jQueryのメソッド</li>
+            <li>$.eachと結構違う、引数とか</li>
+            <li>thisは使えない</li>
+            <li>配列っぽいもの（NodeListとか）にも使える</li>
+            <li id="li03"><button>確認</button></li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>$(hoge).map</h3>
+        <div class="code">
+            var hoge = ["hoge", "fuga", "piyo"];<br />
+            var result = $(hoge).map(function (idx, ele) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;return {name: ele};<br />
+            });
+        </div>
+        <ul>
+            <li>jQueryのメソッド</li>
+            <li>$(hoge).eachと使い勝手は一緒</li>
+            <li id="li04"><button>確認</button></li>
+        </ul>
+    </div>
+
+    <script src="js/jquery-2.0.2.min.js"></script>
+    <script>
+
+        $(function () {
+
+            $("#li01 button").on("click", function () {
+                var result = [];
+                var hoge = ["hoge", "fuga", "piyo"];
+                for (var i=0, len=hoge.length; i<len; i++) {
+                    result.push({name: hoge[i]});
+                }
+                console.dir(result);
+            });
+
+            $("#li02 button").on("click", function () {
+                var hoge = ["hoge", "fuga", "piyo"];
+                var result = hoge.map(function (ele, idx, ary) {
+                    return {name: ele};
+                });
+                console.dir(result);
+            });
+
+            $("#li03 button").on("click", function () {
+                var hoge = ["hoge", "fuga", "piyo"];
+                var result = $.map(hoge, function (ele, idx) {
+                    return {name: ele};
+                });
+                console.dir(result);
+            });
+
+            $("#li04 button").on("click", function () {
+                var hoge = ["hoge", "fuga", "piyo"];
+                var result = $(hoge).map(function (idx, ele) {
+                    return {name: ele};
+                });
+                console.dir(result);
+            });
+
+        });
+
+    </script>
+</body>
+</html>
