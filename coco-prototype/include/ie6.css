@@ -1,0 +1,32 @@
+#MainPanel #TopMenu {
+    position: static;
+}
+
+#MainPanel #TopMenu #SelectSectionMain #SelectSectionList {
+    position: absolute;
+}
+
+#MainPanel #TopMenu #ConfigMenu {
+    display: none;
+}
+
+#MainPanel #ListPanel {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+#MainPanel #ListPanel li {
+    width: 100%;
+}
+
+#MainPanel #ListPanel li .block-y .block-be .block-be-1 .editSelectButton {
+    display: none;
+}
+
+#MainPanel #ListPanel li .block-y .block-ce a.button.editButton {
+    width: 60px;
+}
+
+#MainPanel #ListPanel li .block-y a.button.copy {
+    display: none;
+}
