@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>テスト</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+    <script>
+        function init() {
+            var canvas = document.getElementById("canvas1");
+            if (!canvas || !canvas.getContext) {
+                return false;
+            }
+
+            var context = canvas.getContext("2d");
+            context.fillStyle = "#00CCFF";
+            context.fillRect(0, 0, 200, 200);
+            context.fillStyle = "#FFCC00";
+            context.fillRect(50, 50, 200, 200);
+        }
+
+        function redraw() {
+            var canvas = document.getElementById("canvas1");
+            if (!canvas || !canvas.getContext) {
+                return false;
+            }
+
+            var context = canvas.getContext("2d");
+            context.clearRect(0, 0, 300, 200);
+
+            var s1 = document.getElementById("slider2");
+            var s2 = document.getElementById("slider");
+            if (s1.selectedIndex == 1) {
+                context.fillStyle = "#FFCC00";
+                context.fillRect(50, 50, s2.value * 2, 100);
+            }
+        }
+    </script>
+</head>
+<body onload="init()">
+<div data-role="page" class="type-interior" >
+
+	<div data-role="header" id="header">
+		<h1>フォームギャラリー</h1><a href="/doc/jquery_mobile/" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		<form action="#" method="get"> 
+			<div data-role="fieldcontain"> 
+				<label for="slider2">Flip switch:</label> 
+				<select name="slider2" id="slider2" data-role="slider" onchange="redraw()"> 
+					<option value="off">Off</option> 
+					<option value="on">On</option> 
+				</select> 
+			</div> 
+			<div data-role="fieldcontain"> 
+				<label for="slider">Slider:</label> 
+			 	<input type="range" name="slider" id="slider" value="0" min="0" max="100" onchange="redraw()"  /> 
+			</div> 
+			<div data-role="fieldcontain"> 
+				<canvas id="canvas1" width="300" height="200"></canvas>
+			</div> 
+		</form> 
+	</div><!-- /content -->
+
+</div><!-- /page -->
+    
+</body>
+</html>
