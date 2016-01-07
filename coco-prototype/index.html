@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <title>ここにーる</title>
+    <link rel="stylesheet" href="include/Default.css" />
+    <!--[if IE 6]>
+        <link rel="stylesheet" href="include/ie6.css" />
+    <![endif]-->
+    <!--[if IE 7]>
+        <link rel="stylesheet" href="include/ie7.css" />
+    <![endif]-->
+</head>
+<body>
+    <div id="MainPanel">
+        <div id="TopMenu">
+            <div id="SearchMain">
+                <div id="SearchInputBox"><input type="text" id="SearchKeyword" /></div>
+                <div id="SearchIcon"></div>
+                <div id="HomeIcon">
+                    <ul id="SelectSectionList" class="hidden"></ul>
+                </div>
+            </div>
+            <div id="ConfigMenu">
+                <div id="ConfigIcon"></div>
+                <ul id="SelectConfigList" class="hidden">
+                    <li data-configType="myList">デフォルト表示設定</li>
+                    <li data-configType="mySection">よく使う部署の設定</li>
+                    <li data-configType="etc">その他の設定</li>
+                    <li data-configType="note">ReleaseNote</li>
+                </ul>
+            </div>
+            <div id="LastUpdate">
+                <div id="LastUpdateTitle">LastUpdate</div>
+                <div id="LastUpdateTime"></div>
+                <div id="LastUpdateWaiting"></div>
+            </div>
+        </div>
+        <ul id="ListPanel" data-panelType="mainContents"></ul>
+        <div id="UpdateStatusBox"></div>
+        <div id="ConfigMyList" class="hidden" data-panelType="mainContents">
+            <div class="summary">現在のリストをデフォルトに設定できます。<br />また、個別に社員番号を設定できます。</div>
+            <div class="inputBox"></div>
+            <div class="back"></div>
+        </div>
+        <div id="ConfigMySection" class="hidden" data-panelType="mainContents">
+            <div class="summary">よく使う部署を選択すると部署選択が簡単になります。<br />選択されなかった部署は折り畳まれます。</div>
+            <div class="buttonBox"></div>
+            <div class="back"></div>
+        </div>
+        <div id="ConfigEtc" class="hidden" data-panelType="mainContents">
+            <div class="summary">オプション設定の変更ができます。</div>
+            <div class="inputBox">
+                <textarea id="ExScript"></textarea>
+            </div>
+            <div class="back"></div>
+        </div>
+    </div>
+
+    <div id="PopupJotaiMain" class="PopupPanel hidden">
+        <div class="popupContain">
+            <div class="buttonBox">
+                <a class="button popupSelect">会議</a>
+                <a class="button popupSelect">打ち合わせ</a>
+                <a class="button popupSelect">来客</a>
+                <a class="button popupSelect">研修</a>
+                <a class="button popupSelect">出張</a>
+                <a class="button popupSelect">外出</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="PopupYukisakiMain" class="PopupPanel hidden">
+        <div class="popupContain">
+            <div class="buttonBox">
+                <a class="button popupSelect">１Ｆロビー</a>
+                <a class="button popupSelect">２Ｆ応接Ａ</a>
+                <a class="button popupSelect">２Ｆ応接Ｂ</a>
+                <a class="button popupSelect">２Ｆ大会議室</a>
+                <a class="button popupSelect">２Ｆ総務応接</a>
+                <a class="button popupSelect">３Ｆ応接Ａ</a>
+                <a class="button popupSelect">３Ｆ応接Ｂ</a>
+                <a class="button popupSelect">３Ｆ会議室</a>
+                <a class="button popupSelect">４Ｆ会議室</a>
+                <a class="button popupSelect">５Ｆ会議室Ａ</a>
+                <a class="button popupSelect">５Ｆ会議室Ｂ</a>
+                <a class="button popupSelect">５Ｆ食堂</a>
+                <a class="button popupSelect">ＳＤＣ２階ホール</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="PopupNichijiMain" class="PopupPanel hidden">
+        <div class="popupContain">
+            <div class="buttonBox">
+                <div class="pooupnichiji-timebox">
+                    <select id="selTimeSt" data-mini="true">
+                        <option value=""></option>
+                        <option value="8:00">8:00</option>
+                        <option value="8:30">8:30</option>
+                        <option value="9:00">9:00</option>
+                        <option value="9:30">9:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:00">14:00</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:00">15:00</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                    <span>～</span>
+                    <select id="selTimeEd" data-mini="true">
+                        <option value=""></option>
+                        <option value="8:00">8:00</option>
+                        <option value="8:30">8:30</option>
+                        <option value="9:00">9:00</option>
+                        <option value="9:30">9:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:00">14:00</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:00">15:00</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                        <option value="直帰">直帰</option>
+                    </select>
+                </div>
+                <div>
+                    <a class="button popupSelect"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="include/jquery-1.8.2.min.js"></script>
+    <script src="include/jquery.cookie.js"></script>
+    <script src="include/json2.js"></script>
+    <!-- script src="include/list.js"></script -->
+    <!-- script src="include/yukilist.js"></script -->
+    <script src="include/Default.js"></script>
+</body>
+</html>
