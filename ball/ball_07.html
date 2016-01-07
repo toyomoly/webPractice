@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Canvasを利用</title>
+    <style>
+        canvas {
+            display: block;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+    <script src="jquery-2.0.2.min.js"></script>
+    <script>
+
+        // **************************************************
+        // *  ボール
+        // **************************************************
+        function Ball(ballInfo, wallInfo) {
+            this.x = ballInfo.x;                        // x座標
+            this.y = ballInfo.y;                        // y座標
+            this.r = ballInfo.r;                        // 半径
+            this.vx = ballInfo.vx;                      // x方向速度
+            this.vy = ballInfo.vy;                      // y方向速度
+            this.wallInfo = wallInfo;                   // 壁の情報
+        }
+        Ball.prototype = {
+
+            move: function () {
+                // 座標を移動する
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // x方向の壁に当たったか判定
+                if (this._isOnTheWall(this.x, this.r, this.wallInfo.width, this.vx)) {
+                    // 壁に当たったので反転
+                    this.vx *= -1;
+                    // 半径を小さくする
+                    this.r--;
+                }
+                // y方向の壁に当たったか判定
+                if (this._isOnTheWall(this.y, this.r, this.wallInfo.height, this.vy)) {
+                    // 壁に当たったので反転
+                    this.vy *= -1;
+                    // 半径を小さくする
+                    this.r--;
+                }
+            },
+            // 壁に当たったか判定
+            _isOnTheWall: function (pos, radius, wallLength, v) {
+                return ((pos + radius > wallLength) && (v > 0) || (pos - radius < 0) && (v < 0));
+            }
+        }
+
+        // **************************************************
+        // *  ドロワー
+        // **************************************************
+        function Drawer(canvas) {
+
+            this._canvas = canvas;
+
+            // コンテキストの設定
+            this._context = canvas.getContext("2d");    // コンテキストの取得
+            this._context.lineWidth = 2;                // 線の太さ
+            this._context.strokeStyle = "#ec3eac";      // 線の色
+            this._context.fillStyle = "#fff";           // 塗りつぶしの色
+        }
+        Drawer.prototype = {
+
+            // キャンバスの描画
+            draw: function (balls) {
+
+                var context = this._context;
+
+                // キャンバスの初期化
+                context.clearRect(0, 0, this._canvas.width, this._canvas.height);
+
+                // 各ボールを描画
+                balls.forEach(function (ball) {
+                    context.beginPath();                // パスの開始
+                    context.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2, false);     // 円を描く
+                    context.stroke();                   // パスの線を描く
+                    context.fill();                     // パスの中を塗りつぶす
+                });
+            }
+        }
+
+        // **************************************************
+        // *  マネージャー
+        // **************************************************
+        function Manager(canvas) {
+
+            // ドロワーの生成
+            this._drawer = new Drawer(canvas);
+
+            // 壁の情報
+            this.wallInfo = {
+                width: canvas.width,
+                height: canvas.height
+            }
+
+            // ボールの配列を初期化
+            this.Balls = [];
+
+            // setIntervalのタイマーIDを格納する変数
+            this._timerId = null;
+
+            // 移動フラグ
+            this.moving = false;
+        }
+        Manager.prototype = {
+
+            // ボールの追加
+            add: function () {
+
+                // 新しいボールのステータスを決める
+                var ballInfo = {
+                    x: Math.floor(Math.random() * this.wallInfo.width),
+                    y: Math.floor(Math.random() * this.wallInfo.height),
+                    r: Math.floor(Math.random() * 15 + 5),      // 半径 5～20
+                    vx: Math.floor(Math.random() * 20 - 10),    // x方向速度 -10～10
+                    vy: Math.floor(Math.random() * 20 - 10)     // y方向速度 -10～10
+                }
+
+                // ボールを生成する
+                this._createBall(ballInfo);
+
+                // キャンバスの描画
+                this._drawer.draw(this.Balls);
+            },
+
+            // 新しいボールを生成する
+            _createBall: function (ballInfo) {
+
+                // Ballクラスのインスタンスを生成する
+                var newBall = new Ball(ballInfo, this.wallInfo);
+
+                // ボールの配列に追加
+                this.Balls.push(newBall);
+            },
+
+            // リセット
+            reset: function () {
+
+                // ボールの配列を初期化
+                this.Balls = [];
+
+                // キャンバスの描画
+                this._drawer.draw(this.Balls);
+            },
+
+            // ボールの移動
+            _move: function () {
+
+                // 各ボールを移動
+                this.Balls.forEach(function (ball) {
+                    ball.move();
+                });
+
+                // 半径5未満のボールは消失
+                this.Balls = this.Balls.filter(function (ball) {
+                    return (ball.r >= 5);
+                });
+
+                // キャンバスの描画
+                this._drawer.draw(this.Balls);
+            },
+
+            // スタート
+            start: function () {
+
+                // 既に動いている可能性があるので、一旦ストップしておく
+                this.stop();
+
+                var self = this;
+                var drawInterval = 30;      // 描画間隔（ミリ秒）
+
+                // タイマーをセット（一定時間毎にfunctionを実行）
+                this._timerId = setInterval(function () {
+                    // ボールの移動
+                    self._move();
+                }, drawInterval);
+
+                // 移動フラグをON
+                this.moving = true;
+            },
+
+            // 移動ストップ
+            stop: function () {
+
+                if (this.moving) {
+                    // タイマーを解除
+                    clearInterval(this._timerId);
+                };
+
+                // タイマーIDをクリア
+                this._timerId = null;
+
+                // 移動フラグをOFF
+                this.moving = false;
+            }
+
+        }
+
+        // **************************************************
+        // * メイン処理
+        // **************************************************
+        $(function () {
+
+            // キャンバスの生成
+            var canvas = $("<canvas></canvas>").attr({
+                "width": 400,
+                "height": 300
+            });
+
+            // マネージャーの生成
+            var mng = new Manager(canvas.get(0));
+
+            // addボタン
+            var addButton = $("<button />").text("add").on("click", function () {
+                // addボタンの動作
+                mng.add();
+            });
+
+            // resetボタン
+            var resetButton = $("<button />").text("reset").on("click", function () {
+                // resetボタンの動作
+                mng.reset();
+            });
+
+            // startボタン
+            var startButton = $("<button />").text("start").on("click", function () {
+                // startボタンの動作
+                mng.start();
+            });
+
+            // stopボタン
+            var stopButton = $("<button />").text("stop").on("click", function () {
+                // stopボタンの動作
+                mng.stop();
+            });
+
+            // body要素に各種要素を追加
+            $("body")
+                // addボタンを追加
+                .append(addButton)
+                // resetボタンを追加
+                .append(resetButton)
+                // startボタンを追加
+                .append(startButton)
+                // stopボタンを追加
+                .append(stopButton)
+                // キャンバスを追加
+                .append(canvas);
+        });
+
+    </script>
+</body>
+</html>
