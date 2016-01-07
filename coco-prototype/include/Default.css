@@ -44,6 +44,48 @@ a.button:hover {
     color: #fff;
 }
 
+div.exInputBox {
+    position: relative;
+    height: 32px;
+    float: left;
+}
+
+div.exInputBox input {
+    width: 200px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
+    margin-top: 2px;
+    padding-left: 5px;
+    padding-right: 24px;
+    display: block;
+    -webkit-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+       -moz-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+            box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
+    -webkit-border-radius: .6em;
+       -moz-border-radius: .6em;
+            border-radius: .6em;
+    border: 1px solid #bbb;
+}
+
+div.exInputBox div.delval {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+    margin: 0px auto;
+    height:18px;
+    width:18px;
+    background: #666;
+    background: rgba(0,0,0,.4);
+    background-image: url(images/icons-18-white.png);
+    background-repeat: no-repeat;
+    -webkit-border-radius: 9px;
+       -moz-border-radius: 9px;
+            border-radius: 9px;
+    background-position: -72px 50%;
+    cursor: pointer;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -68,34 +110,77 @@ body {
 
 #MainPanel #TopMenu #SearchMain {
     height: 32px;
-    width: 318px;
     overflow: hidden;
     float: left;
 }
 
 #MainPanel #TopMenu #SearchMain #SearchInputBox {
     height: 32px;
-    width: 250px;
+    width: 300px;
     overflow: hidden;
     float: left;
 }
 
 #MainPanel #TopMenu #SearchMain #SearchInputBox input#SearchKeyword {
-    height: 24px;
-    line-height: 24px;
-    font-size: 16px;
-    margin-top: 2px;
     margin-left: 4px;
-    padding-left: 5px;
-    width: 235px;
-    display: block;
-    -webkit-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
-       -moz-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
-            box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
-    -webkit-border-radius: .6em;
-       -moz-border-radius: .6em;
-            border-radius: .6em;
-    border: 1px solid #bbb;
+    width: 260px;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList {
+    position: fixed;
+    top: 32px;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: 0px; /* animate 0~320px */
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #e3e3e3;
+    border: 1px solid #333;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li {
+    height: 32px;
+    width: 289px;
+    overflow: hidden;
+    line-height: 32px;
+    padding-left: 10px;
+    cursor: pointer;
+    background-color: #e3e3e3;
+    color: #000;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li:hover {
+    background-color: #ff6c43;
+    color: #fff;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.openBtn,
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.closeBtn {
+    padding: 0px 10px;
+    width: 279px;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.openBtn .icon,
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.closeBtn .icon {
+    margin: 7px auto;
+    height:18px;
+    width:18px;
+    background: #666;
+    background: rgba(0,0,0,.4);
+    background-image: url(images/icons-18-white.png);
+    background-repeat: no-repeat;
+    -webkit-border-radius: 9px;
+       -moz-border-radius: 9px;
+            border-radius: 9px;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.openBtn .icon {
+    background-position: -216px 50%;
+}
+
+#MainPanel #TopMenu #SearchMain #SearchInputBox #SelectSectionList li.closeBtn .icon {
+    background-position: -180px 50%;
 }
 
 #MainPanel #TopMenu #SearchMain #SearchIcon {
@@ -120,73 +205,10 @@ body {
     background-position: -1151px 50%;
 }
 
+#MainPanel #TopMenu #SearchMain #SearchInputBox:hover,
 #MainPanel #TopMenu #SearchMain #SearchIcon:hover,
 #MainPanel #TopMenu #SearchMain #HomeIcon:hover {
     background-color: #444;
-}
-
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList {
-    position: fixed;
-    top: 32px;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    height: 0px; /* animate 0~320px */
-    overflow-x: hidden;
-    overflow-y: auto;
-    background-color: #e3e3e3;
-    border: 1px solid #333;
-}
-    @media screen and (max-width:350px) {
-        #MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList { width: 100%; } }
-
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li {
-    height: 32px;
-    width: 307px;
-    overflow: hidden;
-    line-height: 32px;
-    padding-left: 10px;
-    cursor: pointer;
-    background-color: #e3e3e3;
-    color: #000;
-}
-    @media screen and (max-width:350px) {
-        #MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li { width: 100%; } }
-
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li:hover {
-    background-color: #ff6c43;
-    color: #fff;
-}
-
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li.openBtn,
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li.closeBtn {
-    padding: 0px 10px;
-    width: 297px;
-}
-    @media screen and (max-width:350px) {
-        #MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li.openBtn,
-        #MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li.closeBtn { width: 100%; } }
-
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li.openBtn .icon,
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li.closeBtn .icon {
-    margin: 7px auto;
-    height:18px;
-    width:18px;
-    background: #666;
-    background: rgba(0,0,0,.4);
-    background-image: url(images/icons-18-white.png);
-    background-repeat: no-repeat;
-    -webkit-border-radius: 9px;
-       -moz-border-radius: 9px;
-            border-radius: 9px;
-}
-
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li.openBtn .icon {
-    background-position: -216px 50%;
-}
-
-#MainPanel #TopMenu #SearchMain #HomeIcon #SelectSectionList li.closeBtn .icon {
-    background-position: -180px 50%;
 }
 
 #MainPanel #TopMenu #ConfigMenu {
@@ -299,6 +321,8 @@ body {
     overflow: hidden;
     padding: 3px;
 }
+    @media screen and (max-width:800px) {
+        #MainPanel #ListPanel li { width: 800px; } }
 
 #MainPanel #ListPanel li.theme1 {
     border: 1px solid #999;
@@ -344,11 +368,6 @@ body {
     background-image:         linear-gradient( #ccc , #bbb );
 }
 
-#MainPanel #ListPanel li:hover {
-    border: 2px solid #ff6c43;
-    padding: 2px;
-}
-
 #MainPanel #ListPanel li .block-a {
     float: left;
     width: 50px;
@@ -377,127 +396,61 @@ body {
 
 #MainPanel #ListPanel li .block-o {
     float: left;
-    width: 48px;
+    width: 46px;
     overflow: hidden;
+}
+
+#MainPanel #ListPanel li .block-o .block-o-1 {
+    height: 32px;
+    margin-top: 2px;
+}
+
+#MainPanel #ListPanel li .block-o .block-o-1 a.button {
+    width: 32px;
+    overflow: hidden;
+    cursor: default;
+    background: #666;
+    background: rgba(0,0,0,.4);
+    color: #fff;
 }
 
 #MainPanel #ListPanel li .block-p {
     margin-left: 528px
 }
 
-#MainPanel #ListPanel li .textdata {
+#MainPanel #ListPanel li .block-p .textdata {
     padding: 3px 0px 3px 10px;
     margin-top: 3px;
     line-height: 1;
 }
 
-
-/* ここから要見直し */
-#MainPanel #ListPanel li .block-x .block-a-1,
-#MainPanel #ListPanel li .block-x .block-a-2 {
-    width: 100px;
-    height: 32px;
-    line-height: 32px;
+#MainPanel #ListPanel li .block-s {
     float: left;
 }
-    @media screen and (max-width:800px) {
-        #MainPanel #ListPanel li .block-x .block-a-1 { display: none; } }
 
-#MainPanel #ListPanel li .block-y {
-    margin-left: 250px;
-}
-    @media screen and (max-width:800px) {
-        #MainPanel #ListPanel li .block-y { margin-left: 120px; } }
-    @media screen and (max-width:400px) {
-        #MainPanel #ListPanel li .block-y { clear:left; margin-left: 0px; } }
-
-#MainPanel #ListPanel li .block-y .block-b {
-    width: 46px;
+#MainPanel #ListPanel li .block-s .block-s-1,
+#MainPanel #ListPanel li .block-s .block-s-2,
+#MainPanel #ListPanel li .block-s .block-s-3,
+#MainPanel #ListPanel li .block-s .block-s-4,
+#MainPanel #ListPanel li .block-s .block-s-5 {
+    width: 300px;
     height: 32px;
-    float: left;
     overflow: hidden;
 }
 
-#MainPanel #ListPanel li .block-y .block-b .block-b-1 {
-    height: 32px;
+#MainPanel #ListPanel li .block-s input {
+    width: 200px;
+    margin-left: 2px;
 }
 
-#MainPanel #ListPanel li .block-y .block-b .block-b-1 a.button {
-}
-
-#MainPanel #ListPanel li .block-y .block-be {
-    width: 400px;
-    height: 128px;
-    float: left;
-    overflow: hidden;
-}
-    @media screen and (max-width:800px) {
-        #MainPanel #ListPanel li .block-y .block-be { width: 230px; } }
-
-#MainPanel #ListPanel li .block-y .block-be .block-be-1 {
-    height: 32px;
-}
-
-#MainPanel #ListPanel li .block-y .block-be .block-be-1 .editInputTitle {
-    width: 45px;
-    height: 32px;
-    line-height: 32px;
-    float: left;
-}
-    @media screen and (max-width:800px) {
-        #MainPanel #ListPanel li .block-y .block-be .block-be-1 .editInputTitle { display: none; } }
-
-#MainPanel #ListPanel li .block-y .block-be .block-be-1 input.editInput {
-    height: 24px;
-    line-height: 24px;
-    font-size: 16px;
-    margin-top: 2px;
-    padding-left: 5px;
-    width: 270px;
-    display: block;
-    float: left;
-    -webkit-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
-       -moz-box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
-            box-shadow: inset 0px 1px 4px rgba(0,0,0,.2);
-    -webkit-border-radius: .6em;
-       -moz-border-radius: .6em;
-            border-radius: .6em;
-    border: 1px solid #bbb;
-}
-    @media screen and (max-width:800px) {
-        #MainPanel #ListPanel li .block-y .block-be .block-be-1 input.editInput { width: 200px; } }
-
-#MainPanel #ListPanel li .block-y .block-be .block-be-1 .editSelectButton {
-}
-    @media screen and (max-width:800px) {
-        #MainPanel #ListPanel li .block-y .block-be .block-be-1 .editSelectButton { display: none; } }
-
-#MainPanel #ListPanel li .block-y .block-c {
-    float: left;
+#MainPanel #ListPanel li .block-s a.button {
+    width: 32px;
     overflow: hidden;
 }
 
-#MainPanel #ListPanel li .block-y .block-c .statusText {
-    height: 32px;
-    line-height: 32px;
-    float: left;
-    padding-left: 20px;
-}
-
-#MainPanel #ListPanel li .block-y .block-ce {
-    float: left;
-    overflow: hidden;
-}
-
-#MainPanel #ListPanel li .block-y .block-ce a.button.editButton {
-    float: none;
-    display: block;
-}
-
-#MainPanel #ListPanel li .block-y a.button.copy {
+#MainPanel #ListPanel li .block-s .block-s-5 a.button.update {
     float: right;
 }
-/* ここまで要見直し */
 
 #MainPanel #ListPanel .more {
     padding: 7px 0px;
@@ -526,15 +479,30 @@ body {
 
 #MainPanel #UpdateStatusBox {
     position: absolute;
-    width: 184px;
-    height: 32px;
+    width: 138px;
+    height: 64px;
+    background: rgba(0,0,0,0);
 }
 
 #MainPanel #UpdateStatusBox a.button {
     position: absolute;
-    margin-left: 48px;
+    margin-left: 2px;
     margin-top: 2px;
     width: 32px;
+}
+
+#MainPanel #UpdateStatusBox a.button.copy,
+#MainPanel #UpdateStatusBox a.button.paste {
+    font-size: 12px;
+    height: 20px;
+    padding: 4px 5px;
+}
+
+#MainPanel #UpdateStatusBox .anti-hover {
+    position: absolute;
+    width: 48px;
+    height: 34px;
+    background: rgba(0,0,0,0);
 }
 
 #MainPanel #ConfigMyList,
