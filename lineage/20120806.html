@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>BlogScript</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+<style type="text/css">
+.r { font-weight:bold; font-size:16px; color:red; }
+</style>
+<script type="text/javascript">
+tbl = [
+125,
+175,
+200,
+250,
+546,
+1105,
+1695,
+2465,
+3439,
+4641,
+6095,
+7825,
+9855,
+12209,
+14911,
+17985,
+21455,
+25345,
+29679,
+34481,
+39775,
+45585,
+51935,
+58849,
+66351,
+74465,
+83215,
+92625,
+102719,
+113521,
+125055,
+137345,
+150415,
+164289,
+178991,
+194545,
+210975,
+228305,
+246559,
+265761,
+285935,
+307105,
+329295,
+352529,
+729360,
+1508416,
+3495263,
+9912189,
+36065092,
+36065092,
+36065092
+];
+$ = function(id){return document.getElementById(id);}
+cal = function(){
+  var lv = parseInt($("slLv").value);
+  var exp = parseInt($("slExp").value);
+  var lvPt = overAll(lv);
+  var expPt = tbl[lv - 1] * exp / 100;
+  $("result").innerHTML = Math.floor((lvPt + expPt)/tbl[48]*10000)/100 + "%";
+}
+overAll = function(lv){
+  var t = 0;
+  for(var i=0; i<lv-1; i++){
+    t += tbl[i];
+  }
+  return t;
+}
+</script>
+</head>
+<body onload="cal()">
+<div data-role="page" class="type-interior" >
+	<div data-role="content">	
+		<div data-role="fieldcontain">
+			<p>◆生贄のLvとExp</p>
+			<label for="slLv">Lv:</label>
+		 	<input type="range" id="slLv" value="50" min="30" max="51" step="1" onchange="cal()"  />
+			<label for="slExp">Exp:</label>
+		 	<input type="range" id="slExp" value="0" min="0" max="100" step="1" onchange="cal()"  />
+		</div>
+		<div data-role="fieldcontain">譲渡されるEXPは<br />Lv49換算で　<span id="result" class="r">154.75%</span></div>
+	</div>
+</div>
+</body>
+</html>
