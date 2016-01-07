@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>SVG+AngularJSを利用</title>
+<style>
+    .main {
+        position: absolute;
+        left: 20px;
+        top: 40px;
+    }
+    .log {
+        position: absolute;
+        left: 10px;
+        top: 250px;
+    }
+</style>
+<script src="js/angular.min.js"></script>
+<script>
+
+var frm = {height : 200, width : 300};
+var drawInterval = 30;
+
+/*
+   ボール
+*/
+function Ball(ballInfo, wallInfo){
+    this.x = ballInfo.x;
+    this.y = ballInfo.y;
+    this.r = ballInfo.r;
+    this.vx = ballInfo.vx;
+    this.vy = ballInfo.vy;
+    this.wallInfo = wallInfo;
+}
+Ball.prototype = {
+    move : function(){
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this._isOnTheWall(this.x, this.r, this.wallInfo.width, this.vx)) { this.vx *= -1; }
+        if (this._isOnTheWall(this.y, this.r, this.wallInfo.height, this.vy)) { this.vy *= -1; }
+    },
+    _isOnTheWall : function(pos, radius, wallLength, v){
+        return ((pos + radius > wallLength) && (v > 0) || (pos - radius < 0) && (v < 0));
+    }
+}
+
+/*
+   コントローラー
+*/
+function BallCtrl($scope){
+    
+    var timerId = null;
+    var getNewBall = function(){return new Ball({
+                    x  : Math.floor(Math.random() * $scope.wallInfo.width + 1),
+                    y  : Math.floor(Math.random() * $scope.wallInfo.height + 1),
+                    r  : Math.floor(Math.random() * 15 + 5),
+                    vx : Math.floor(Math.random() * 10 + 1),
+                    vy : Math.floor(Math.random() * 10 + 1),
+                  }, $scope.wallInfo);}
+    
+    $scope.wallInfo = frm;
+    $scope.Balls = [getNewBall()];
+    $scope.moving = false;
+    
+    $scope.startMove = function(){
+        $scope.stopMove();
+        timerId = setInterval(function(){
+            for(var i = 0; i < $scope.Balls.length; i++){
+                $scope.Balls[i].move();
+            }
+            $scope.$apply();    // Viewに反映させる
+        }, drawInterval);
+        $scope.moving = true;
+    }
+    
+    $scope.stopMove = function(){
+        if($scope.moving){ clearInterval(timerId); };
+        timerId = null;
+        $scope.moving = false;
+    }
+    
+    $scope.reset = function(){
+        $scope.Balls = [getNewBall()];
+    }
+    
+    $scope.addBall = function(){
+        $scope.Balls.push(getNewBall());
+    }
+    
+    $scope.startMove();
+}
+
+/*
+   カスタムタグ
+*/
+var module = angular.module("app", []);
+module.directive("wall", function() {
+    return {
+        restrict: "E",
+        link: function(scope, element, attrs) {
+            scope.$watch("wallInfo", function(val) {
+                var s = "<svg width=" + val.width + " height=" + val.height + " xmlns='http://www.w3.org/2000/svg'>"
+                      + "<rect style='fill:white;stroke-width:1;stroke:black' width=" + val.width + " height=" + val.height + " /></svg>";
+                element.html(s);
+            }, true);
+        }
+    }
+});
+module.directive("ball", function() {
+    return {
+        restrict: "E",
+        link: function(scope, element, attrs) {
+            scope.$watch("Ball", function(val) {
+                var s = "<svg width=" + val.wallInfo.width + " height=" + val.wallInfo.height + " xmlns='http://www.w3.org/2000/svg'>"
+                      + "<circle fill='black' cx=" + val.x + " cy=" + val.y + " r=" + val.r + " /></svg>";
+                element.html(s);
+            }, true);
+        }
+    }
+});
+
+</script>
+</head>
+<body>
+
+<div ng-app="app" ng-controller="BallCtrl">
+    <button ng-click="startMove()" ng-disabled="moving">start</button>
+    <button ng-click="stopMove()" ng-disabled="!moving">stop</button>
+    <button ng-click="addBall()">add ball</button>
+    <button ng-click="reset()">reset</button>
+
+    <!-- カスタムタグ 'wall' -->
+    <wall class="main"></wall>
+    <!-- カスタムタグ 'ball' -->
+    <ball class="main" ng-repeat="Ball in Balls"></ball>
+
+    <div class="log">
+         <div ng-repeat="Ball in Balls">x:{{Ball.x}} y:{{Ball.y}} r:{{Ball.r}}</div>
+    </div>
+</div>
+
+</body>
+</html>
