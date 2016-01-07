@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app>
+<html>
 <head>
 <meta charset="UTF-8" />
 <title>SVG+AngularJSを利用</title>
@@ -78,21 +78,51 @@ function BallCtrl($scope){
     $scope.startMove();
 }
 
+/*
+   カスタムタグ
+*/
+var module = angular.module("app", []);
+module.directive("wall", function() {
+    return {
+        restrict: "E",
+        link: function(scope, element, attrs) {
+            scope.$watch("wallInfo", function(val) {
+                var s = "<svg width=" + val.width + " height=" + val.height + " xmlns='http://www.w3.org/2000/svg'>"
+                      + "<rect style='fill:white;stroke-width:1;stroke:black' width=" + val.width + " height=" + val.height + " /></svg>";
+                element.html(s);
+            }, true);
+        }
+    }
+});
+module.directive("ball", function() {
+    return {
+        restrict: "E",
+        link: function(scope, element, attrs) {
+            scope.$watch("Ball", function(val) {
+                var s = "<svg width=" + val.wallInfo.width + " height=" + val.wallInfo.height + " xmlns='http://www.w3.org/2000/svg'>"
+                      + "<circle fill='black' cx=" + val.x + " cy=" + val.y + " r=" + val.r + " /></svg>";
+                element.html(s);
+            }, true);
+        }
+    }
+});
+
 </script>
 </head>
 <body>
 
-<div ng-controller="BallCtrl">
+<div ng-app="app" ng-controller="BallCtrl">
     <button ng-click="startMove()" ng-disabled="moving">start</button>
     <button ng-click="stopMove()" ng-disabled="!moving">stop</button>
     <button ng-click="addBall()">add ball</button>
     <button ng-click="reset()">reset</button>
-    <br>
-    <svg width={{wallInfo.width}} height={{wallInfo.height}} xmlns="http://www.w3.org/2000/svg">
-        <rect style="fill:white;stroke-width:1;stroke:black" width={{wallInfo.width}} height={{wallInfo.height}} />
-        <circle ng-repeat="Ball in Balls" fill="black" cx={{Ball.x}} cy={{Ball.y}} r={{Ball.r}} />
-    </svg>
-    <div ng-repeat="Ball in Balls">x:{{Ball.x}} y:{{Ball.y}} r:{{Ball.r}}</div>
+    <!-- カスタムタグ 'wall' -->
+    <wall style="position:absolute;left:20px;top:40px;"></wall>
+    <!-- カスタムタグ 'ball' -->
+    <ball style="position:absolute;left:20px;top:40px;" ng-repeat="Ball in Balls"></ball>
+    <div style="position:absolute;left:10px;top:250px;">
+         <div ng-repeat="Ball in Balls">x:{{Ball.x}} y:{{Ball.y}} r:{{Ball.r}}</div>
+    </div>
 </div>
 
 </body>
