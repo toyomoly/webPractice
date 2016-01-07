@@ -1,9 +1,56 @@
 $(function () {
+    $.fn.extend({
+        exHide: function () {
+            return this.hide().addClass("hidden");
+        },
+        exShow: function () {
+            return this.show().removeClass("hidden");
+        }
+    });
+
     // ライブラリ
     var Lib = {
+        getProperty: function (itemArray) {
+            return {
+                id:         itemArray[0],
+                name:       itemArray[1],
+                section:    itemArray[2],
+                statusCd:   itemArray[3],
+                jotai:      itemArray[4],
+                yukisaki:   itemArray[5],
+                nichiji:    itemArray[6],
+                imgTag:     itemArray[7],
+                kana:       itemArray[9],
+                phone:      itemArray[10],
+                sectionCd:  itemArray[12],
+                rank:       itemArray[13]
+            }
+        },
         createButton: function (text) {
-            var self = this;
             return $("<a></a>").addClass("button").text(text);
+        },
+        createTextBox: function (val, placeholder, id) {
+            var input = $("<input />").attr("id", id).addClass("editInput").attr("placeholder", placeholder).val(val).ahPlaceholder({
+                placeholderColor : "silver",
+                placeholderAttr : "placeholder",
+                likeApple : false
+            })
+            .on("change", function () {
+                if(input.val().length > 0) btn.exShow();
+                else btn.exHide();
+            })
+            .on("keyup", function () {
+                if(input.val().length > 0) btn.exShow();
+                else btn.exHide();
+            });
+            var btn = $("<div></div>").addClass("delval").on("click", function () {
+                input.val("").change();
+                btn.exHide();
+                input.focus();
+            });
+            if(input.val().length < 1) btn.exHide();
+
+            return $("<div></div>").addClass("exInputBox").append(input).append(btn);
         },
         getTime: function () {
             var d = new Date();
@@ -27,88 +74,44 @@ $(function () {
 
     // リストアイテム
     var ListItem = {
-        _add: function (id, name, section, statusCd, jotai, yukisaki, nichiji, imgTag, kana, phone, rank) {
-            var self = this;
-            var li = $("<li></li>").addClass("theme" + statusCd)
-                .append($("<div></div>").addClass("block-a")
-                    .append($("<div></div>").addClass("block-a-1").html(imgTag))
+        _add: function (itemArray) {
+            var item = Lib.getProperty(itemArray);
+            var li = $("<li></li>").addClass("theme" + item.statusCd)
+            .append($("<div></div>").addClass("block-a")
+                .append($("<div></div>").addClass("block-a-1").html(item.imgTag))
+            )
+            .append($("<div></div>").addClass("block-b")
+                .append($("<div></div>").addClass("block-b-1 textdata").text(item.id))
+            )
+            .append($("<div></div>").addClass("block-c")
+                .append($("<div></div>").addClass("block-c-1 textdata").text(item.name))
+                .append($("<div></div>").addClass("block-c-2 textdata").text(item.kana))
+            )
+            .append($("<div></div>").addClass("block-d")
+                .append($("<div></div>").addClass("block-d-1 textdata").text(item.section))
+                .append($("<div></div>").addClass("block-d-2 textdata").text(item.rank))
+            )
+            .append($("<div></div>").addClass("block-o")
+                .append($("<div></div>").addClass("block-o-1").attr("data-id", item.id)
+                    .append(Lib.createButton(
+                        item.statusCd == "1" ? "社内" :
+                        item.statusCd == "2" ? "社外" :
+                        item.statusCd == "3" ? "休暇" : "帰宅"
+                    ))
                 )
-                .append($("<div></div>").addClass("block-b")
-                    .append($("<div></div>").addClass("block-b-1 textdata").text(id))
-                )
-                .append($("<div></div>").addClass("block-c")
-                    .append($("<div></div>").addClass("block-c-1 textdata").text(name))
-                    .append($("<div></div>").addClass("block-c-2 textdata").text(kana))
-                )
-                .append($("<div></div>").addClass("block-d")
-                    .append($("<div></div>").addClass("block-d-1 textdata").text(section))
-                    .append($("<div></div>").addClass("block-d-2 textdata").text(rank))
-                )
-                .append($("<div></div>").addClass("block-o")
-                    .append($("<div></div>").addClass("block-o-1").attr("data-id", id)
-                        .append(Lib.createButton(
-                            statusCd == "1" ? "社内" :
-                            statusCd == "2" ? "社外" :
-                            statusCd == "3" ? "休暇" : "帰宅"
-                        ).addClass("on").attr("data-clicktype", "selectStatus").attr("data-statusCd", statusCd))
-                    )
-                )
-                .append($("<div></div>").addClass("block-p")
-                    .append($("<div></div>").addClass("block-p-1 textdata").text(jotai))
-                    .append($("<div></div>").addClass("block-p-2 textdata").text(yukisaki))
-                    .append($("<div></div>").addClass("block-p-3 textdata").text(nichiji))
-                )
-                //.append($("<div></div>").addClass("block-y")
-                //    .append($("<div></div>").addClass("block-b")
-                //        .append($("<div></div>").addClass("block-b-1").attr("data-id", id)
-                //            .append(Lib.createButton(
-                //                statusCd == "1" ? "社内" :
-                //                statusCd == "2" ? "社外" :
-                //                statusCd == "3" ? "休暇" : "帰宅"
-                //            ).addClass("on").attr("data-clicktype", "selectStatus").attr("data-statusCd", statusCd))
-                //        )
-                //    )
-                //    .append($("<div></div>").addClass("block-c")
-                //        .append($("<div></div>").addClass("statusText").text(jotai))
-                //        .append($("<div></div>").addClass("statusText").text(yukisaki))
-                //        .append($("<div></div>").addClass("statusText").text(nichiji))
-                //    )
-                //    .append(Lib.createButton("Copy").addClass("copy"))
-                //)
-                .on("click", function (e) {
-                    self._edit(li, id, name, statusCd, jotai, yukisaki, nichiji);
-                })
-                .on("click", "a.button.copy", function () {
-                    // clickしても_edit()しない
-                    return false;
-                })
-                .on("mousedown", "a.button.copy", function () {
-                    self.copyStart(id, name, statusCd, jotai, yukisaki, nichiji, li);
-                    return false;
-                });
+            )
+            .append($("<div></div>").addClass("block-p")
+                .append($("<div></div>").addClass("block-p-1 textdata").text(item.jotai))
+                .append($("<div></div>").addClass("block-p-2 textdata").text(item.yukisaki))
+                .append($("<div></div>").addClass("block-p-3 textdata").text(item.nichiji))
+            );
 
             return li;
         },
 
-        _edit: function (li, id, name, statusCd, jotai, yukisaki, nichiji) {
-
-            // マネージャーに登録
-            Manager.startEdit(function () {
-                li.removeClass("hidden");
-                editer.remove();
-            });
-
-            var newStatusCd = statusCd;
-
-            var j = $("<input />").addClass("ui-body-d ui-corner-all ui-shadow-inset editInput").val(jotai);
-            var y = $("<input />").addClass("ui-body-d ui-corner-all ui-shadow-inset editInput").val(yukisaki);
-            var n = $("<input />").addClass("ui-body-d ui-corner-all ui-shadow-inset editInput").val(nichiji);
+        _edit2: function (li, id, name, statusCd, jotai, yukisaki, nichiji) {
 
             var editer = $("<li></li>").addClass("theme" + statusCd)
-                .append($("<div></div>").addClass("block-x")
-                    .append($("<div></div>").addClass("block-a-1").text(id))
-                    .append($("<div></div>").addClass("block-a-2").text(name))
-                )
                 .append($("<div></div>").addClass("block-y")
                     .append($("<div></div>").addClass("block-be")
                         .append($("<div></div>").addClass("block-be-1")
@@ -143,11 +146,7 @@ $(function () {
                         )
                     )
                     .append($("<div></div>").addClass("block-ce")
-                        .append(Lib.createButton("Cancel").addClass("editButton").on("click", function (e) {
-                            Manager.cancelEdit();
-                            Manager.PopupNichiji.clear();
-                            return false;
-                        }))
+                        .append(Lib.createButton("Cancel").addClass("editButton"))
                         .append(Lib.createButton("Clear").addClass("editButton").on("click", function (e) {
                             j.val("");
                             y.val("");
@@ -155,131 +154,189 @@ $(function () {
                             Manager.PopupNichiji.clear();
                             return false;
                         }))
-                        .append(Lib.createButton("Update").addClass("editButton").on("click", function (e) {
-                            Manager.setStatus(id, newStatusCd, j.val(), y.val(), n.val());
-                            Manager.update();
-                            Manager.PopupNichiji.clear();
-                            return false;
-                        }))
+                        .append(Lib.createButton("Update").addClass("editButton"))
                     )
                 )
-                .on("click", "a.button[data-clicktype=selectStatus]", function (e) {
-                    var target = $(e.target);
-                    target.siblings().removeClass("on");
-                    target.addClass("on");
-                    newStatusCd = target.attr("data-statusCd");
-                    return false;
-                });
+                ;
+
+
+        },
+
+        _edit: function (target_li, item) {
+            var newStatusCd = item.statusCd;
+
+            // マネージャーに登録
+            Manager.startEdit(function () {
+                target_li.find(".block-s").remove();
+                target_li.find(".block-o, .block-p").exShow();
+            });
 
             // 元の要素を非表示
-            li.addClass("hidden");
+            target_li.find(".block-o, .block-p").exHide();
+
             // 編集用要素を追加
-            li.before(editer); /* after()だとli:first-childが効かないのでNG */
+            target_li.append($("<div></div>").addClass("block-s")
+                .append($("<div></div>").addClass("block-s-1")
+                    .append(Lib.createButton("社内").addClass(item.statusCd == "1" ? "on" : "").addClass("selectStatus").attr("data-statusCd", "1"))
+                    .append(Lib.createButton("社外").addClass(item.statusCd == "2" ? "on" : "").addClass("selectStatus").attr("data-statusCd", "2"))
+                    .append(Lib.createButton("休暇").addClass(item.statusCd == "3" ? "on" : "").addClass("selectStatus").attr("data-statusCd", "3"))
+                    .append(Lib.createButton("帰宅").addClass(item.statusCd == "4" ? "on" : "").addClass("selectStatus").attr("data-statusCd", "4"))
+                )
+                .append($("<div></div>").addClass("block-s-2")
+                    .append(Lib.createTextBox(item.jotai, "例：会議、出張など"))
+                    //.append(Lib.createButton("選択"))
+                )
+                .append($("<div></div>").addClass("block-s-3")
+                    .append(Lib.createTextBox(item.yukisaki, "例：○○会議室、△△市など"))
+                    //.append(Lib.createButton("選択"))
+                )
+                .append($("<div></div>").addClass("block-s-4")
+                    .append(Lib.createTextBox(item.nichiji, "例：～10:00、NRなど"))
+                    //.append(Lib.createButton("選択"))
+                )
+                .append($("<div></div>").addClass("block-s-5")
+                    .append(Lib.createButton("取消").addClass("cancel").on("click", function (e) {
+                        Manager.cancelEdit();
+                        Manager.PopupNichiji.clear();
+                    }))
+                    .append(Lib.createButton("更新").addClass("update").on("click", function (e) {
+                        var j = target_li.find("block-s-2 input");
+                        var y = target_li.find("block-s-3 input");
+                        var n = target_li.find("block-s-4 input");
+                        Manager.setStatus(item.id, newStatusCd, j.val(), y.val(), n.val());
+                        Manager.update();
+                        Manager.PopupNichiji.clear();
+                        return false;
+                    }))
+                )
+            )
+            .on("click", "a.button.selectStatus", function (e) {
+                var t = $(this);
+                t.siblings().removeClass("on");
+                t.addClass("on");
+                newStatusCd = t.attr("data-statusCd");
+            });
+
             // 日時クリア
             Manager.PopupNichiji.clear();
-        },
-
-        copyStart: function (id, name, statusCd, jotai, yukisaki, nichiji, ele) {
-
-            Manager.setStatus(id, statusCd, jotai, yukisaki, nichiji);
-
-            $("#ListPanel a.button.copy").addClass("hidden");
-            ele.find("a.button.copy").removeClass("hidden");
-            // bodyに選択禁止
-            $("body").addClass("noSelect");
-
-            this._copy = true;
-            this._copyId = id;
-        },
-
-        copyCancel: function () {
-            $("#ListPanel a.button.copy").removeClass("hidden");
-            // bodyの選択禁止を解除
-            $("body").removeClass("noSelect");
-
-            this._copy = false;
-            this._copyId = "";
         },
 
         init: function () {
             var self = this;
             var id = "";
+            var btnSize = { x: 46, y: 32 }
+            var copy_item = null;
+            var target_li = null;
 
-            var updateStatusBox = $("#UpdateStatusBox").addClass("hidden")
-                .append(Lib.createButton("社内").attr("data-statusCd", "1"))
-                .append(Lib.createButton("社外").attr("data-statusCd", "2"))
-                .append(Lib.createButton("休暇").attr("data-statusCd", "3"))
-                .append(Lib.createButton("帰宅").attr("data-statusCd", "4"))
-            .on("click", "a.button", function () {
+            var temp = [];
+            var cancel = function () {
+                while (temp.length > 0) {
+                    temp.pop()();
+                }
+            }
+            var open = function () {
+                var b = updateStatusBox.find("a.button");
+                b.eq(0).stop(true).animate({
+                    "margin-left": (2 + btnSize.x) + "px"
+                }, "fast");
+                b.eq(1).stop(true).animate({
+                    "margin-left": (2 + btnSize.x * 2) + "px"
+                }, "fast");
+                b.eq(2).stop(true).animate({
+                    "margin-left": "2px",
+                    "margin-top": (2 + btnSize.y) + "px"
+                }, "fast");
+                b.eq(3).stop(true).animate({
+                    "margin-left": (2 + btnSize.x) + "px",
+                    "margin-top": (2 + btnSize.y) + "px"
+                }, "fast");
+                b.eq(4).stop(true).animate({
+                    "margin-left": (2 + btnSize.x * 2) + "px",
+                    "margin-top": (2 + btnSize.y) + "px"
+                }, "fast");
+            }
+            var close = function () {
+                var b = updateStatusBox.find("a.button");
+                var s = {
+                    "margin-left": "2px",
+                    "margin-top": "2px"
+                }
+                b.eq(0).animate(s, "fast");
+                b.eq(1).animate(s, "fast");
+                b.eq(2).animate(s, "fast");
+                b.eq(3).animate(s, "fast");
+                b.eq(4).animate(s, {
+                    duration: "fast",
+                    complete: function () {
+                        updateStatusBox.exHide();
+                        cancel();
+                    }
+                });
+            }
+
+            var updateStatusBox = $("#UpdateStatusBox").exHide()
+                .append(Lib.createButton("社内").addClass("updateDirect").attr("data-statusCd", "1"))
+                .append(Lib.createButton("帰宅").addClass("updateDirect").attr("data-statusCd", "4"))
+                .append(Lib.createButton("編集").addClass("edit"))
+                .append(Lib.createButton("Copy").addClass("copy"))
+                .append(Lib.createButton("Paste").addClass("paste hidden"))
+                .append($("<div></div>").addClass("anti-hover"))
+            .on("click", "a.button.updateDirect", function () {
                 Manager.updateDirect(id, $(this).attr("data-statusCd"));
-            });
+            })
+            .on("click", "a.button.edit", function () {
+                $.each(Manager.List, function (i, s) {
+                    var item = Lib.getProperty(s);
+                    if (item.id == id) {
+                        updateStatusBox.exHide();
+                        close();
+                        self._edit(target_li, item);
+                        return false;
+                    }
+                });
+            })
+            .on("click", "a.button.copy", function () {
+                $.each(Manager.List, function (i, s) {
+                    var item = Lib.getProperty(s);
+                    if (item.id == id) {
+                        //Manager.setStatus(item.id, item.statusCd, item.jotai, item.yukisaki, item.nichiji);
+                        copy_item = item;
+                        updateStatusBox.find("a.button.paste").exShow();
+                        alert(item.name + "(" + item.id + ") の内容をコピーしました。\n[Paste] ボタンで貼り付けます。");
+                        return false;
+                    }
+                });
+            })
+            .on("click", "a.button.paste", function () {
+                updateStatusBox.exHide();
+                close();
+                self._edit(target_li, copy_item);
+            })
+            .hover(open, close);
             $("#MainPanel").append(updateStatusBox);
 
             $("#ListPanel").on("click", ".more", function () {
                 self._appendListDom();
             })
-            .on("mouseup", "li", function () {
-                if (self._copy == true) {
-                    var id = $(this).find(".block-a-1").text();
-                    if (id != self._copyId) {
-                        Manager.udateCopy(id);
-                    }
-                    self.copyCancel();
-                }
-            })
             .on("mouseover", "li .block-o .block-o-1", function () {
                 var t = $(this);
-                $("#ListPanel li .block-o .block-o-1").removeClass("invisible");
-                var o = t.addClass("invisible").offset();
+                var o = t.offset();
+                // 更新用の参照
+                id = t.attr("data-id");
+                target_li = t.parent().parent();
 
-                updateStatusBox.removeClass("hidden").css({
-                    "left": (o.left - 46) + "px",
+                updateStatusBox.exShow().css({
+                    "left": (o.left) + "px",
                     "top": (o.top) + "px"
                 });
-                move();
-
-                var statusCd = t.find("a.button[data-clicktype=selectStatus]").attr("data-statusCd");
-                updateStatusBox.find("a.button[data-statusCd=" + statusCd + "]").addClass("on");
-                // 更新用のidを取得
-                id = t.attr("data-id");
-            });
-            updateStatusBox.hover(move, function () {
-                var b = updateStatusBox.find("a.button");
-                var s = {
-                    "margin-left": "48px"
-                }
-                var opt = {
-                    duration: "fast",
-                    complete: function () {
-                        updateStatusBox.addClass("hidden");
-                        $("#ListPanel li .block-o .block-o-1").removeClass("invisible");
-                    }
-                }
-                b.eq(1).animate(s, opt);
-                b.eq(2).animate(s, opt);
-                b.eq(3).animate(s, opt);
-            });
-            var move = function () {
-                var b = updateStatusBox.find("a.button").removeClass("on");
-                b.eq(1).stop(true).animate({
-                    "margin-left": "94px"
-                }, "fast");
-                b.eq(2).stop(true).animate({
-                    "margin-left": "140px"
-                }, "fast");
-                b.eq(3).stop(true).animate({
-                    "margin-left": "2px"
-                }, "fast");
-            }
-
-            $(document).on("mouseup", function () {
-                if (self._copy == true) {
-                    self.copyCancel();
-                }
+                open();
+                cancel();
+                t.parent().next().stop(true).animate({ "margin-left": (528 + btnSize.x * 2) + "px" }, "fast");
+                temp.push(function () {
+                    t.parent().next().animate({ "margin-left": "528px" }, "fast");
+                });
             });
         },
-        _copy: false,
-        _copyId: "",
 
         Reselect: function (selectFunc) {
             if (selectFunc) {
@@ -297,8 +354,8 @@ $(function () {
             this._appendListDom();
 
             // パネルの表示
-            $("[data-panelType=mainContents]").addClass("hidden");
-            $("#ListPanel").removeClass("hidden");
+            $("[data-panelType=mainContents]").exHide();
+            $("#ListPanel").exShow();
 
             // オプション
             $.each(Manager.option.exReselect, function (i, scr) {
@@ -312,11 +369,11 @@ $(function () {
             for (var i = 0; i < 10; i++) {
                 if (this._selectedList.length > 0) {
                     var s = this._selectedList.shift();
-                    m.before(this._add(s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[9], s[10], s[13]));
+                    m.before(this._add(s));
                 }
             }
             if (this._selectedList.length == 0) {
-                m.addClass("hidden");
+                m.exHide();
             }
         },
         _empty: function () {
@@ -345,10 +402,9 @@ $(function () {
         }
     }
 
-    // 部署セレクト
-    var Section = {
-        init: function () {
-            var self = this;
+    // 検索
+    var Search = {
+        createSection: function () {
             var ul = $("#SelectSectionList");
 
             ul.append($("<li></li>").text("デフォルト").attr("data-sectionType", "myList").attr("data-selected", "false"));
@@ -362,73 +418,30 @@ $(function () {
                 .append($("<div></div>").addClass("icon"))
             );
 
-            var openList = function () {
-                ul.removeClass("hidden");
-                ul.stop(true).animate({ "height": "320px" }, {
-                    duration: "fast",
-                    complete: function () {
-                        ul.css("overflow-y", "auto");
-                    }
-                });
-            }
-            var closeList = function () {
-                ul.animate({ "height": "0px" }, {
-                    duration: "fast",
-                    complete: function () {
-                        ul.addClass("hidden");
-                    }
-                });
-                // よく使う部署の初期化
-                self.resetSection();
-            }
-            ul.on("click", "li[data-sectionType=myList],li[data-sectionType=normal]", function (e) {
-                $("#SelectSectionList li[data-selected=true]").attr("data-selected", "false");
-                $(e.target).attr("data-selected", "true");
-                self._changeSection();
-                closeList();
-                return false;
-            })
-            .on("click", "li.openBtn[data-sectionType=last]", function (e) {
-                $("#SelectSectionList li[data-sectionType=normal]").removeClass("hidden");
-                $("#SelectSectionList li.openBtn[data-sectionType=last]").addClass("hidden");
-                $("#SelectSectionList li.closeBtn[data-sectionType=last]").removeClass("hidden");
-                return false;
-            })
-            .on("click", "li.closeBtn[data-sectionType=last]", function (e) {
-                self.resetSection();
-                return false;
-            });
-            // ホームボタン
-            $("#HomeIcon").on("click", function (e) {
-                if (Manager.option.myList.length > 0) {
-                    $("#SelectSectionList li[data-selected=true]").attr("data-selected", "false");
-                    $("#SelectSectionList li[data-sectionType=myList]").attr("data-selected", "true");
-                    self._changeSection();
-                }
-                closeList();
-                return false;
-            })
-            .hover(openList, closeList);
-
             this.resetSection();
             $("#SelectSectionList li:not(.hidden)").first().trigger("click");
         },
 
         resetSection: function () {
-            $("#SelectSectionList li").addClass("hidden");
+            $("#SelectSectionList li").exHide();
             if (Manager.option.myList.length > 0) {
-                $("#SelectSectionList li[data-sectionType=myList]").removeClass("hidden");
+                $("#SelectSectionList li[data-sectionType=myList]").exShow();
+                // ホームボタン
+                $("#HomeIcon").exShow();
+            } else {
+                // ホームボタン
+                $("#HomeIcon").exHide();
             }
             if (Manager.option.mySection.length > 0) {
                 $("#SelectSectionList li[data-sectionType=normal]").each(function (i, t) {
                     var s = $(t);
                     if ($.inArray(s.text(), Manager.option.mySection) > -1) {
-                        s.removeClass("hidden");
+                        s.exShow();
                     }
                 });
-                $("#SelectSectionList li.openBtn[data-sectionType=last]").removeClass("hidden");
+                $("#SelectSectionList li.openBtn[data-sectionType=last]").exShow();
             } else {
-                $("#SelectSectionList li[data-sectionType=normal]").removeClass("hidden");
+                $("#SelectSectionList li[data-sectionType=normal]").exShow();
             }
         },
 
@@ -443,7 +456,8 @@ $(function () {
                         return $.map(Manager.option.myList, function (id, j) {
                             var a = [];
                             $.each(Manager.List, function (i, s) {
-                                if (s[0] == id) {
+                                var item = Lib.getProperty(s);
+                                if (item.id == id) {
                                     a.push(s);
                                     return false;
                                 }
@@ -456,7 +470,8 @@ $(function () {
                     var v = li.attr("data-sectionValue");
                     ListItem.Reselect(function () {
                         return $.map(Manager.List, function (s, i) {
-                            if (s[2] == v) {
+                            var item = Lib.getProperty(s);
+                            if (item.section == v) {
                                 return [s];
                             }
                         });
@@ -464,19 +479,69 @@ $(function () {
                     break;
                 default:
             }
-        }
-    }
+        },
 
-    var Search = {
         init: function () {
-            $("#SearchKeyword").on("keyup", this._search).on("change", this._search)
-                .on("click", function () {
-                    $(this).select();
+            var self = this;
+            var ul = $("#SelectSectionList");
+
+            var openList = function () {
+                ul.exShow();
+                ul.stop(true).animate({ "height": "320px" }, {
+                    duration: "fast",
+                    complete: function () {
+                        ul.css("overflow-y", "auto");
+                    }
                 });
+            }
+            var closeList = function () {
+                ul.animate({ "height": "0px" }, {
+                    duration: "fast",
+                    complete: function () {
+                        ul.exHide();
+                    }
+                });
+                // よく使う部署の初期化
+                self.resetSection();
+            }
+            ul.on("click", "li[data-sectionType=myList],li[data-sectionType=normal]", function (e) {
+                $("#SelectSectionList li[data-selected=true]").attr("data-selected", "false");
+                $(e.target).attr("data-selected", "true");
+                self._changeSection();
+                closeList();
+                return false;
+            })
+            .on("click", "li.openBtn[data-sectionType=last]", function (e) {
+                $("#SelectSectionList li[data-sectionType=normal]").exShow();
+                $("#SelectSectionList li.openBtn[data-sectionType=last]").exHide();
+                $("#SelectSectionList li.closeBtn[data-sectionType=last]").exShow();
+                return false;
+            })
+            .on("click", "li.closeBtn[data-sectionType=last]", function (e) {
+                self.resetSection();
+                return false;
+            });
+
+            $("#SearchInputBox").append(Lib.createTextBox("", "検索ワードを入力", "SearchKeyword"))
+            .hover(openList, closeList);
+            $("#SearchKeyword").on("keyup", this._search).on("change", this._search)
+            .on("click", function () {
+                closeList();
+            });
+            // 検索ボタン
             $("#SearchIcon").on("click", this._search);
+            // ホームボタン
+            $("#HomeIcon").on("click", function (e) {
+                if (Manager.option.myList.length > 0) {
+                    $("#SelectSectionList li[data-selected=true]").attr("data-selected", "false");
+                    $("#SelectSectionList li[data-sectionType=myList]").attr("data-selected", "true");
+                    self._changeSection();
+                }
+                return false;
+            });
         },
         setKeyword: function (v, exec) {
-            $("#SearchKeyword").val(v);
+            $("#SearchKeyword").val(v).change();
             if (exec) {
                 this._search();
             }
@@ -486,26 +551,26 @@ $(function () {
             ListItem.Reselect(function () {
                 var selected = [];
                 return $.map(Manager.List, function (s, i) {
-                    if ($.inArray(s[0], selected) > -1) { return; }
+                    var item = Lib.getProperty(s);
+                    if ($.inArray(item.id, selected) > -1) { return; }
                     for (var j = 0, len = v.length; j < len; j++) {
                         if (!(
-                            (s[0].toLowerCase().indexOf(v[j]) > -1) ||     // id
-                            (s[1].indexOf(v[j]) > -1) ||                   // name
-                            (s[2].indexOf(v[j]) > -1) ||                   // section
-                            (s[9].indexOf(v[j]) > -1) ||                   // kana
-                            (s[10].indexOf(v[j]) > -1) ||                  // phone
-                            (s[12].toLowerCase() == v[j]) ||               // sectionCd
-                            (s[13].indexOf(v[j]) > -1)                     // rank
+                            (item.id.toLowerCase().indexOf(v[j]) > -1) ||
+                            (item.name.indexOf(v[j]) > -1) ||
+                            (item.section.indexOf(v[j]) > -1) ||
+                            (item.kana.indexOf(v[j]) > -1) ||
+                            (item.phone.indexOf(v[j]) > -1) ||
+                            (item.sectionCd.toLowerCase() == v[j]) ||
+                            (item.rank.indexOf(v[j]) > -1)
                         )) {
                             return;
                         }
                     }
                     // 全てのキーワードにマッチ
-                    selected.push(s[0]);
+                    selected.push(item.id);
                     return [s];
                 });
             });
-
         }
     }
 
@@ -519,9 +584,10 @@ $(function () {
                 dispName.text("");
                 var v = inputId.val();
                 $.each(Manager.List, function (i, s) {
-                    if (s[0].toLowerCase() == v.toLowerCase()) {
-                        dispName.text(s[1]);
-                        inputId.val(s[0]);
+                    var item = Lib.getProperty(s);
+                    if (item.id.toLowerCase() == v.toLowerCase()) {
+                        dispName.text(item.name);
+                        inputId.val(item.id);
                         return false;
                     }
                 });
@@ -583,7 +649,7 @@ $(function () {
                 // 現在表示コピーボタン
                 box.append(Lib.createButton("現在のリストをデフォルトに追加する").addClass("copy").on("click", function () {
                     box.find(".inputLine").last().remove();
-                    $("#ListPanel li .block-a-1").each(function () {
+                    $("#ListPanel li .block-b .block-b-1").each(function () {
                         add($(this).text());
                     });
                     checkInput();
@@ -620,8 +686,8 @@ $(function () {
                 // 初期化
                 this._openIni();
                 // オープン
-                $("[data-panelType=mainContents]").addClass("hidden");
-                $("#ConfigMyList").removeClass("hidden");
+                $("[data-panelType=mainContents]").exHide();
+                $("#ConfigMyList").exShow();
                 // マネージャーに登録
                 Manager.startEdit();
             },
@@ -629,7 +695,7 @@ $(function () {
             _save: function (myList) {
                 $.cookie("myList", myList.join("\n"), { expires: 365 });
                 Manager.option.myList = myList;
-                Section.resetSection();
+                Search.resetSection();
             }
         },
 
@@ -683,8 +749,8 @@ $(function () {
                     }
                 });
                 // オープン
-                $("[data-panelType=mainContents]").addClass("hidden");
-                $("#ConfigMySection").removeClass("hidden");
+                $("[data-panelType=mainContents]").exHide();
+                $("#ConfigMySection").exShow();
                 // マネージャーに登録
                 Manager.startEdit();
             },
@@ -692,7 +758,7 @@ $(function () {
             _save: function (mySection) {
                 $.cookie("mySection", mySection.join("\n"), { expires: 365 });
                 Manager.option.mySection = mySection;
-                Section.resetSection();
+                Search.resetSection();
             }
         },
 
@@ -753,8 +819,8 @@ $(function () {
                 this._editMyScr();
                 $("#ConfigEtc .inputBox textarea").val(myScr);
 
-                $("[data-panelType=mainContents]").addClass("hidden");
-                $("#ConfigEtc").removeClass("hidden");
+                $("[data-panelType=mainContents]").exHide();
+                $("#ConfigEtc").exShow();
                 // マネージャーに登録
                 Manager.startEdit();
             }
@@ -764,14 +830,14 @@ $(function () {
             var ul = $("#SelectConfigList");
 
             var openList = function () {
-                ul.removeClass("hidden");
+                ul.exShow();
                 ul.stop(true).animate({ "height": "128px" }, "fast");
             }
             var closeList = function () {
                 ul.animate({ "height": "0px" }, {
                     duration: "fast",
                     complete: function () {
-                        ul.addClass("hidden");
+                        ul.exHide();
                     }
                 });
             }
@@ -837,10 +903,10 @@ $(function () {
         _clear: null,
         open: function (callBack) {
             this._callBack = callBack;
-            this._main.removeClass("hidden");
+            this._main.exShow();
         },
         close: function () {
-            this._main.addClass("hidden");
+            this._main.exHide();
         },
         commit: function (text) {
             this._callBack(text);
@@ -1006,8 +1072,9 @@ $(function () {
                 var id = this._editVal.id;
                 var name = "";
                 $.each(Manager.List, function (i, s) {
-                    if (s[0] == id) {
-                        name = s[1];
+                    var item = Lib.getProperty(s);
+                    if (item.id == id) {
+                        name = item.name;
                         return false;
                     }
                 });
@@ -1020,22 +1087,6 @@ $(function () {
         updateDirect: function (id, statusCd) {
             this.setStatus(id, statusCd, "", "", "");
             this.update();
-        },
-        udateCopy: function (id) {
-            var id_from = this._editVal.id;
-            this._editVal.id = id;
-
-            var name_from = "";
-            var name_to = "";
-            $.each(Manager.List, function (i, s) {
-                if (s[0] == id_from) {
-                    name_from = s[1];
-                }
-                if (s[0] == id) {
-                    name_to = s[1];
-                }
-            });
-            this.update(name_from + "(" + id_from + ") から " + name_to + "(" + id + ") へコピーしますか？");
         }
     }
 
@@ -1050,12 +1101,6 @@ $(function () {
 
     // ここからページロード処理
 
-    // 初期化処理
-    UpdateTime.init();
-    ListItem.init();
-    Config.init();
-    Search.init();
-
     // デフォルト表示の設定
     var r = $.cookie("myList");
     if (r) {
@@ -1067,10 +1112,26 @@ $(function () {
         Manager.option.mySection = s.split("\n");
     }
 
+    // 初期化処理
+    UpdateTime.init();
+    ListItem.init();
+    Config.init();
+    Search.init();
+
     // ポップアップ
     Manager.PopupJotai = new popup($("#PopupJotaiMain"));
     Manager.PopupYukisaki = new popup($("#PopupYukisakiMain"));
     Manager.PopupNichiji = new popup($("#PopupNichijiMain"), "nichiji");
+
+/* ここから */
+            Manager.List2 = list;
+            // 部署取得
+            Manager.getSection(function () {
+                Search.createSection();
+                Manager.reload();
+            });
+return;
+/* ここまで */
 
     // adsearchデータ取得
     $.ajax({
@@ -1083,7 +1144,7 @@ $(function () {
             Manager.List2 = list;
             // 部署取得
             Manager.getSection(function () {
-                Section.init();
+                Search.createSection();
                 Manager.reload();
                 // 自動更新
                 // Manager.setAutoReload(5 * 60 * 1000);
