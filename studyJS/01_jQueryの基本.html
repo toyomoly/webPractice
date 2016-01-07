@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>JavaScript勉強会</title>
+    <style>
+        .con {
+            padding: 20px;
+            margin-bottom: 50px;
+            background-color: #f0f0f5;
+        }
+        .caution {
+            color: red;
+        }
+        .comment {
+            color: #99ff99;
+        }
+    </style>
+</head>
+<body>
+    <div class="con">
+        <h3>jQueryの基本</h3>
+        <ul>
+            <li>最もポピュラーなJavaScriptライブラリ</li>
+            <li>DOM操作に優れている</li>
+            <li>かつてprototype.jsと勢力を二分していたが、MSが推したためjQueryの天下になった？</li>
+            <li>今でも、MooToolsなどライバルはいる</li>
+            <li>ユーティリティとしての利用だけならUnderscore.jsなどもある（軽い）</li>
+            <li><span class="caution">便利過ぎてJavaScriptの学習には弊害があるかもしれない</span>
+                <br />　⇒ <span class="caution">中で何をしているか？</span>を、想像できる程度にJavaScriptを知っておく必要があると思う・・・</li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>$(function () {})</h3>
+        <ul>
+            <li><span class="comment">/* jQueryを使わずに書くと */</span> window.addEventListener("load", function () {})</li>
+            <li>初回のページロード時の処理を書くときに使える</li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>$("#hoge")</h3>
+        <ul>
+            <li><span class="comment">/* jQueryを使わずに書くと */</span> document.querySelectorAll("#hoge")</li>
+            <li>要素の選択に使える</li>
+            <li class="caution">※ただし戻り値はjQueryオブジェクト
+                <br />　⇒ ノードリストをラッピングしたもの？</li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>$("#hoge").css("color", "blue")</h3>
+        <ul>
+            <li><span class="comment">/* jQueryを使わずに書くと */</span> document.querySelector("#hoge").style.color = "blue"</li>
+            <li>本当は複数要素を取得できるので、querySelectorAllで取得してfor文でループする感じ</li>
+            <li class="caution">jQueryなら簡単！</li>
+            <li id="cssTest">$("#cssTest").css("color", "blue")<button>確認</button></li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>$("#hoge").addClass("comment")</h3>
+        <ul>
+            <li><span class="comment">/* jQueryを使わずに書くと */</span> document.querySelector("#hoge").className += " comment"</li>
+            <li>本当は複数要素を取得できるので、querySelectorAllで取得してfor文で（ｒｙ</li>
+            <li>複数のクラスが設定されている時に、クラスを追加するときに恩恵大
+                <br />　⇒ 自力でやるなら、既に同じクラスが設定されていないかチェックも必要になる</li>
+            <li>クラスを外す時は、removeClassメソッドがある</li>
+                <br />　⇒ これも細かいチェックを自力でやると面倒
+            <li class="caution">jQueryなら簡単！</li>
+            <li id="addClassTest">$("#addClassTest").addClass("comment")<button>確認</button></li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>メソッドチェーン</h3>
+        <ul>
+            <li>jQueryのメソッドはjQueryオブジェクトを返す
+                <br />　⇒ 戻り値に対してさらに処理を実行できる
+                <br />　　⇒ その戻り値に対してさらに（ｒｙ</li>
+            <li class="caution">とにかくjQueryは簡単！</li>
+            <li id="chainTest">$("#chainTest").css("background-color", "blue").addClass("comment").attr("title", "attr()でタイトル属性付与")<button>確認</button></li>
+        </ul>
+    </div>
+
+    <script src="js/jquery-2.0.2.min.js"></script>
+    <script>
+
+        $(function () {
+
+            $("#cssTest button").on("click", function () {
+                $("#cssTest").css("color", "blue");
+            });
+
+            $("#addClassTest button").on("click", function () {
+                $("#addClassTest").addClass("comment");
+            });
+
+            $("#chainTest button").on("click", function () {
+                $("#chainTest").css("background-color", "blue").addClass("comment").attr("title", "attr()でタイトル属性付与");
+            });
+
+        });
+
+    </script>
+</body>
+</html>

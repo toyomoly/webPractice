@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Canvasを利用</title>
+    <style>
+        canvas {
+            display: block;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+    <script type="text/javascript" src="jquery-2.0.2.min.js"></script>
+    <script type="text/javascript">
+
+        /*
+           ボール
+        */
+        function Ball(ballInfo, wallInfo) {
+            this.x = ballInfo.x;        // x座標
+            this.y = ballInfo.y;        // y座標
+            this.r = ballInfo.r;        // 半径
+            this.vx = ballInfo.vx;      // x方向速度
+            this.vy = ballInfo.vy;      // y方向速度
+            this.wallInfo = wallInfo;   // 壁の情報
+        }
+        Ball.prototype = {
+            // 移動
+            move: function () {
+                // 座標を移動する
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // x方向の壁に当たったか判定
+                if (this._isOnTheWall(this.x, this.r, this.wallInfo.width, this.vx)) {
+                    // 壁に当たったので反転
+                    this.vx *= -1;
+                }
+                // y方向の壁に当たったか判定
+                if (this._isOnTheWall(this.y, this.r, this.wallInfo.height, this.vy)) {
+                    // 壁に当たったので反転
+                    this.vy *= -1;
+                }
+            },
+            // 壁に当たったか判定
+            _isOnTheWall: function (pos, radius, wallLength, v) {
+                return ((pos + radius > wallLength) && (v > 0) || (pos - radius < 0) && (v < 0));
+            }
+        }
+
+        /*
+           コントローラー
+        */
+        function BallCtrl(canvas, drawInterval) {
+
+            // 壁の情報
+            this.wallInfo = {
+                width: canvas.width,
+                height: canvas.height
+            }
+
+            // ボールの配列を初期化（最初はボール１個）
+            this.Balls = [this._getNewBall()];
+
+            // 移動フラグ
+            this.moving = false;
+
+            // コンテキスト
+            this._context = canvas.getContext("2d");
+            this._context.lineWidth = 2;
+            this._context.strokeStyle = "#ec3eac";
+            this._context.fillStyle = "#fff";
+
+            // 描画間隔
+            this._drawInterval = drawInterval;
+
+            // setIntervalのタイマーIDを格納する変数
+            this._timerId = null;
+
+            // 移動スタート
+            this.startMove();
+        }
+        BallCtrl.prototype = {
+            // 移動スタート
+            startMove: function () {
+
+                // 既に動いている可能性があるので、一旦ストップしておく
+                this.stopMove();
+
+                var self = this;
+                // タイマーをセット
+                this._timerId = setInterval(function () {
+                    self._moveBall()
+                }, this._drawInterval);
+
+                // 移動フラグをON
+                this.moving = true;
+            },
+
+            // ボールの移動
+            _moveBall: function () {
+
+                // 各ボールに対して、moveメソッドを呼ぶ
+                $.each(this.Balls, function () {
+                    this.move();
+                });
+
+                // キャンバスの描画
+                this._draw();
+            },
+
+            // 移動ストップ
+            stopMove: function () {
+
+                if (this.moving) {
+                    // タイマーを解除
+                    clearInterval(this._timerId);
+                };
+
+                // タイマーIDをクリア
+                this._timerId = null;
+
+                // 移動フラグをOFF
+                this.moving = false;
+            },
+
+            // リセット
+            reset: function () {
+
+                // ボールの配列を初期化
+                this.Balls = [];
+
+                // キャンバスの描画
+                this._draw();
+            },
+
+            // ボールの追加
+            addBall: function () {
+
+                // ボールの配列にボールを１個追加
+                this.Balls.push(this._getNewBall());
+
+                // キャンバスの描画
+                this._draw();
+            },
+
+            // 新しいボールを取得する
+            _getNewBall: function () {
+                // Ballクラスのインスタンスを１つ生成して返す
+                return new Ball({
+                    x: Math.floor(Math.random() * this.wallInfo.width),
+                    y: Math.floor(Math.random() * this.wallInfo.height),
+                    r: Math.floor(Math.random() * 15 + 5),
+                    vx: Math.floor(Math.random() * 10 + 1),
+                    vy: Math.floor(Math.random() * 10 + 1),
+                }, this.wallInfo);
+            },
+
+            // Webサービスからデータを取得してボールの追加
+            addBallByWebService: function () {
+
+                //var d = [
+                //    { x: 100, y: 30, r: 30, vx: 5, vy: 0 },
+                //    { x: 110, y: 50, r: 25, vx: 5, vy: 0 },
+                //    { x: 120, y: 70, r: 20, vx: 5, vy: 0 },
+                //    { x: 130, y: 90, r: 15, vx: 5, vy: 0 },
+                //    { x: 140, y: 110, r: 10, vx: 5, vy: 0 },
+                //    { x: 150, y: 130, r: 5, vx: 5, vy: 0 }
+                //];
+                //var d = [
+                //    { x: 150, y: 100, r: 20, vx: 3, vy: 4 },
+                //    { x: 150, y: 100, r: 15, vx: 4, vy: 3 },
+                //    { x: 150, y: 100, r: 15, vx: -3, vy: 4 },
+                //    { x: 150, y: 100, r: 20, vx: -4, vy: 3 },
+                //    { x: 150, y: 100, r: 20, vx: 3, vy: -4 },
+                //    { x: 150, y: 100, r: 15, vx: 4, vy: -3 },
+                //    { x: 150, y: 100, r: 20, vx: -3, vy: -4 },
+                //    { x: 150, y: 100, r: 15, vx: -4, vy: -3 }
+                //];
+
+                //var self = this;
+                //$.each(d, function () {
+                //    self.Balls.push(new Ball(this, self.wallInfo));
+                //});
+
+                //// キャンバスの描画
+                //this._draw();
+
+                var self = this;
+
+                $.ajax({
+                    url: "http://localhost:9000/getBall/",
+                    data: {
+                        pattern: 10
+                    },
+                    //dataType: "jsonp",
+                    //jsonp: "callback",
+                    success: function (d) {
+                        console.dir(d);
+
+                        $.each(d, function () {
+                            self.Balls.push(new Ball(this, self.wallInfo));
+                        });
+
+                        // キャンバスの描画
+                        self._draw();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("textStatus: " + textStatus + ", errorThrown: " + errorThrown);
+                    }
+                });
+            },
+
+            // キャンバスの描画
+            _draw: function () {
+
+                var context = this._context;
+
+                // キャンバスの初期化
+                context.clearRect(0, 0, this.wallInfo.width, this.wallInfo.height);
+
+                // 各ボールを描画
+                $.each(this.Balls, function () {
+                    context.beginPath();
+                    context.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
+                    context.stroke();
+                    context.fill();
+                });
+            }
+        }
+
+        /*
+            メイン処理
+        */
+        $(function () {
+
+            // 描画間隔（ミリ秒）
+            var drawInterval = 30;
+
+            // キャンバスの生成
+            var canvas = $("<canvas></canvas>").attr({
+                "width": 400,
+                "height": 300
+            });
+
+            // コントローラーの生成
+            var ctrl = new BallCtrl(canvas.get(0), drawInterval);
+            // 移動スタート
+            ctrl.startMove();
+
+            // body要素に各種要素を追加
+            $("body")
+                // スタートボタンを追加
+                .append($("<button />").text("start").on("click", function () {
+                    ctrl.startMove();
+                }))
+                // ストップボタンを追加
+                .append($("<button />").text("stop").on("click", function () {
+                    ctrl.stopMove();
+                }))
+                // ボール追加ボタンを追加
+                .append($("<button />").text("add ball").on("click", function () {
+                    ctrl.addBall();
+                }))
+                // リセットボタンを追加
+                .append($("<button />").text("reset").on("click", function () {
+                    ctrl.reset();
+                }))
+                // ★ボタンを追加
+                .append($("<button />").text("★").on("click", function () {
+                    ctrl.addBallByWebService();
+                }))
+                // キャンバスを追加
+                .append(canvas);
+        });
+
+    </script>
+</body>
+</html>
