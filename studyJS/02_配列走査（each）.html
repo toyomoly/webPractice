@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>JavaScript勉強会</title>
+    <style>
+        .con {
+            padding: 20px;
+            margin-bottom: 50px;
+            background-color: #f0f0f5;
+            font-family: "メイリオ";
+        }
+        .caution {
+            color: red;
+        }
+        .comment {
+            color: #99ff99;
+        }
+        .code {
+            font-size: x-large;
+            background-color: #ddddff;
+        }
+    </style>
+</head>
+<body>
+    <div class="con">
+        <h3>基本のforループ</h3>
+        <div class="code">
+            var hoge = ["hoge", "fuga", "piyo"];<br />
+            for (var i=0, len=hoge.length; i&lt;len; i++) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(hoge[i]);<br />
+            }
+        </div>
+        <ul>
+            <li>普通</li>
+            <li id="li01"><button>確認</button></li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>Array.forEach</h3>
+        <div class="code">
+            var hoge = ["hoge", "fuga", "piyo"];<br />
+            hoge.forEach(function (ele, idx, ary) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(ele);<br />
+            });
+        </div>
+        <ul>
+            <li>Arrayのメソッド</li>
+            <li>今時はコレを使うのが一番いい？</li>
+            <li id="li02"><button>確認</button></li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>$.each</h3>
+        <div class="code">
+            var hoge = ["hoge", "fuga", "piyo"];<br />
+            $.each(hoge, function (idx, ele) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(ele);<br />
+            });
+        </div>
+        <ul>
+            <li>jQueryのメソッド</li>
+            <li>イテレータの引数がArray.forEachと異なるのでややこしい</li>
+            <li>thisも使えるが、オブジェクトに変換されているので少し注意</li>
+            <li>配列っぽいもの（NodeListとか）にも使える</li>
+            <li id="li03"><button>確認</button></li>
+        </ul>
+    </div>
+    <div class="con">
+        <h3>$(hoge).each</h3>
+        <div class="code">
+            var hoge = ["hoge", "fuga", "piyo"];<br />
+            $(hoge).each(function (idx, ele) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(ele);<br />
+            });
+        </div>
+        <ul>
+            <li>jQueryのメソッド</li>
+            <li>$.eachとほとんど一緒</li>
+            <li id="li04"><button>確認</button></li>
+        </ul>
+    </div>
+
+    <script src="js/jquery-2.0.2.min.js"></script>
+    <script>
+
+        $(function () {
+
+            $("#li01 button").on("click", function () {
+                var hoge = ["hoge", "fuga", "piyo"];
+                for (var i=0, len=hoge.length; i<len; i++) {
+                    console.log(hoge[i]);
+                }
+            });
+
+            $("#li02 button").on("click", function () {
+                var hoge = ["hoge", "fuga", "piyo"];
+                hoge.forEach(function (ele, idx, ary) {
+                    console.log(ele);
+                });
+            });
+
+            $("#li03 button").on("click", function () {
+                var hoge = ["hoge", "fuga", "piyo"];
+                $.each(hoge, function (idx, ele) {
+                    console.log(ele);
+                });
+            });
+
+            $("#li04 button").on("click", function () {
+                var hoge = ["hoge", "fuga", "piyo"];
+                $(hoge).each(function (idx, ele) {
+                    console.log(ele);
+                });
+            });
+
+        });
+
+    </script>
+</body>
+</html>
