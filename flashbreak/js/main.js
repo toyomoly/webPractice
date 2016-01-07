@@ -14,52 +14,27 @@ $(function () {
         var R = Math.floor(Math.random() * 200) + 50;
         var G = Math.floor(Math.random() * 200) + 50;
         var B = Math.floor(Math.random() * 200) + 50;
-        this.$dom = $("<div class='star'></div>").css({
+        this.$dom = $("<div class='star'>●</div>").css({
             "left": x + "px",
             "top": y + "px",
-            "background-color": "rgb(" + R + "," + G + "," + B + ")",
-            "border-radius": r / 2 + "px"
-        });
+            "width": r + "px",
+            "height": r + "px",
+            "line-height": r + "px",
+            "font-size": r + "px",
+            "color": "rgb(" + R + "," + G + "," + B + ")"
+        }).append($("<div class='num'>" + Math.floor(Math.random() * 10) + "</div>"));
 
         this.visible = false;
         this._r = r;
     }
     Star.prototype = {
         show: function () {
-            var d = this.$dom;
-            d.show();
-            d.css({
-                "width": "0px",
-                "height": "0px"
-            });
-            d.animate({
-                "width": this._r + "px",
-                "height": this._r + "px"
-            }, {
-                duration: "fast",
-                complete: function () {
-                    
-                }
-            });
-
+            this.$dom.addClass("show");
             this.visible = true;
         },
         hide: function (f) {
-            if (this.visible) {
-                var d = this.$dom;
-                d.animate({
-                    "width": "0px",
-                    "height": "0px"
-                }, {
-                    duration: "fast",
-                    complete: function () {
-                        d.hide();
-                        if(f) f();
-                    }
-                });
-                
-                this.visible = false;
-            }
+            this.$dom.removeClass("show");
+            this.visible = false;
         },
         remove: function () {
             var d = this.$dom;
@@ -108,22 +83,29 @@ $(function () {
 
         start: function () {
             this._createStars(this.Level);
-            this._ready(this.Level);
+            var self = this;
+            setTimeout(function () {
+                self._ready(self.Level);
+            }, 300);
         },
 
         _ready: function (count) {
+            var self = this;
+            if (count != this.Level) {
+                this.stars[count].hide();
+            }
+            
             if (count == 0) {
-                this.stars.forEach(function (e, i) {
-                    e.show();
-                });
-                this._playable = true;
+                
+                setTimeout(function () {
+                    self.stars.forEach(function (e, i) {
+                        e.show();
+                    });
+                    self._playable = true;
+                }, 500);
             } else {
-                if (count != this.Level) {
-                    this.stars[count].hide();
-                }
                 this.stars[count - 1].show();
                 
-                var self = this;
                 setTimeout(function () {
                     self._ready(count - 1);
                 }, 800);
