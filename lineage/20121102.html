@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>BlogScript</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+<style type="text/css">
+.g { font-size:10px; color:#999; }
+.r { font-weight:bold; font-size:16px; color:red; }
+</style>
+<script type="text/javascript">
+cal = function(){
+  var d = parseInt($('input[name="radio-choice-1"]:checked').val());
+  var c2 = parseInt($('input[name="radio-choice-2"]:checked').val());
+  var c3 = parseInt($('input[name="radio-choice-3"]:checked').val());
+  var c4 = parseInt($('input[name="radio-choice-4"]:checked').val());
+  var a = c2 + c3 + c4 + (($("#radio-choice-1").attr("checked") || $("#radio-choice-2").attr("checked")) ? 3 : 0);
+  var s = 0;
+  for(var i=1; i<=d; i++){
+    s += (Math.floor((a+i)/8) + 1);
+  }
+  $("#result").text((s/d)*0.8);
+}
+overAll = function(lv){
+  var t = 0;
+  for(var i=0; i<lv-1; i++){
+    t += tbl[i];
+  }
+  return t;
+}
+</script>
+</head>
+<body onload="cal()">
+<div data-role="page" class="type-interior" >
+	<div data-role="content">	
+		<fieldset data-role="controlgroup" data-role="fieldcontain" data-mini="true">
+			<input type="radio" name="radio-choice-1" id="radio-choice-1" value="19" onchange="cal()" checked="checked" />
+			<label for="radio-choice-1">ディストラ (Small) [19]</label>
+			<input type="radio" name="radio-choice-1" id="radio-choice-2" value="18" onchange="cal()"  />
+			<label for="radio-choice-2">ディストラ (Big) [18]</label>
+			<input type="radio" name="radio-choice-1" id="radio-choice-3" value="30" onchange="cal()"  />
+			<label for="radio-choice-3">幸運斧 (Small) [30]</label>
+			<input type="radio" name="radio-choice-1" id="radio-choice-4" value="28" onchange="cal()"  />
+			<label for="radio-choice-4">幸運斧 (Big) [28]</label>
+		</fieldset>
+		<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain" data-mini="true">
+			<input type="radio" name="radio-choice-2" id="radio-choice-21" value="0" onchange="cal()" checked="checked" />
+			<label for="radio-choice-21">なし [0]</label>
+			<input type="radio" name="radio-choice-2" id="radio-choice-22" value="1" onchange="cal()"  />
+			<label for="radio-choice-22">火 [1]</label>
+			<input type="radio" name="radio-choice-2" id="radio-choice-23" value="3" onchange="cal()"  />
+			<label for="radio-choice-23">紅蓮 [3]</label>
+			<input type="radio" name="radio-choice-2" id="radio-choice-24" value="5" onchange="cal()"  />
+			<label for="radio-choice-24">煉獄 [5]</label>
+		</fieldset>
+		<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain" data-mini="true">
+			<input type="radio" name="radio-choice-3" id="radio-choice-31" value="7" onchange="cal()" checked="checked" />
+			<label for="radio-choice-31">+7</label>
+			<input type="radio" name="radio-choice-3" id="radio-choice-32" value="8" onchange="cal()"  />
+			<label for="radio-choice-32">+8</label>
+			<input type="radio" name="radio-choice-3" id="radio-choice-33" value="9" onchange="cal()"  />
+			<label for="radio-choice-33">+9</label>
+			<input type="radio" name="radio-choice-3" id="radio-choice-34" value="10" onchange="cal()"  />
+			<label for="radio-choice-34">+10</label>
+			<input type="radio" name="radio-choice-3" id="radio-choice-35" value="11" onchange="cal()"  />
+			<label for="radio-choice-35">+11</label>
+			<input type="radio" name="radio-choice-3" id="radio-choice-36" value="12" onchange="cal()"  />
+			<label for="radio-choice-36">+12</label>
+		</fieldset>
+		<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain" data-mini="true">
+			<input type="radio" name="radio-choice-4" id="radio-choice-41" value="0" onchange="cal()" checked="checked" />
+			<label for="radio-choice-41">EWなし [0]</label>
+			<input type="radio" name="radio-choice-4" id="radio-choice-42" value="2" onchange="cal()"  />
+			<label for="radio-choice-42">EWあり [2]</label>
+		</fieldset>
+		<div data-role="fieldcontain">平均吸収ダメージ</br><span id="result" class="r"></span></div>
+	</div>
+</div>
+</body>
+</html>
