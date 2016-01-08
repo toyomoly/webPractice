@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=1024, user-scalable=no" />
+
+    <title>d3js zoom sample</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div id="img-box" class="box">
+        <img id="img-view" src="https://www.nta.go.jp/mynumberinfo/kokuji/img/img01.gif" />
+    </div>
+    <div id="pdf-box" class="box">
+        <!-- "https://docs.google.com/gview?embedded=true&url= ____" -->
+        <!-- "https://drive.google.com/file/d/____/preview" -->
+        <iframe id="pdf-view" src="https://docs.google.com/gview?embedded=true&url=https://www.nta.go.jp/tetsuzuki/shinkoku/shotoku/yoshiki02/pdf/b040.pdf"></iframe>
+        <img id="pdf-cover" />
+    </div>
+
+    <script src="lib/jquery-2.1.4.min.js"></script>
+    <script src="lib/d3.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
