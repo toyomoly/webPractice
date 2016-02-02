@@ -152,7 +152,7 @@
             var d1 = true;
             $("#effect-boxD .logo").css({
                 "transform": "scale(1)",
-                "transform-origin": "left center",
+                "transform-origin": "left center"
             });
             $("#btnD").on("click", function () {
                 d1 = !d1;
@@ -195,7 +195,7 @@
             });
             $("#effect-boxG .logo").css({
                 "-webkit-transform": "rotateX(0deg) rotateY(0deg) rotateZ(0deg)",
-                "transform-origin": "center center center",
+                "transform-origin": "center center 0"
             });
             $("#btnG1").on("click", function () {
                 g1 = (g1 == 0) ? 180 : 0;
@@ -216,11 +216,12 @@
                 "height": "100px"
             });
             $("#effect-boxH .logo").css({
-                "-webkit-transform": "skew(0deg, 0deg)"
+                "-webkit-transform": "skew(0deg, 0deg)",
+                "transform-origin": "center center"
             });
             $("#btnH").on("click", function () {
                 h1 = !h1;
-                $("#effect-boxH .logo").css("-webkit-transform", h1 ? "skew(0deg, 0deg)" : "skew(30deg, 20deg)");
+                $("#effect-boxH .logo").css("-webkit-transform", h1 ? "skew(0deg, 0deg)" : "skew(-20deg, -20deg)");
             });
 
             // I
