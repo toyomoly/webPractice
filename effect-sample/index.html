@@ -8,6 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <style>
         html {
             font-size: 16px;
@@ -18,7 +19,7 @@
             width: 300px;
             height: 40px;
             border: 1px solid #ccc;
-            margin-top: 5%;
+            margin: 40px 0 10px 10px;
             overflow: hidden;
             
             display: -webkit-box;
@@ -39,7 +40,11 @@
         }
         
         button {
-            vertical-align: top;
+            margin-left: 10px;
+        }
+        
+        #bottom-space {
+            height: 300px;
         }
     </style>
 </head>
@@ -50,65 +55,67 @@
     <div id="effect-boxA" class="effect-box">
         <div class="logo">サンプル／サンプル／サンプル</div>
     </div>
-    <button id="btnA">表示・非表示</button>
+    <button id="btnA" class="btn btn-primary">表示・非表示</button>
 
     <!-- B -->
     <div id="effect-boxB" class="effect-box">
         <div class="logo on-transition">サンプル／サンプル／サンプル</div>
     </div>
-    <button id="btnB">平行移動（スライド）</button>
+    <button id="btnB" class="btn btn-primary">平行移動（スライド）</button>
 
     <!-- C -->
     <div id="effect-boxC" class="effect-box">
         <div class="logo on-transition">サンプル／サンプル／サンプル</div>
     </div>
-    <button id="btnC">透過（フェードイン）</button>
+    <button id="btnC" class="btn btn-primary">透過（フェードイン）</button>
 
     <!-- D -->
     <div id="effect-boxD" class="effect-box">
         <div class="logo on-transition">サンプル／サンプル／サンプル</div>
     </div>
-    <button id="btnD">拡大縮小</button>
+    <button id="btnD" class="btn btn-primary">拡大縮小</button>
 
     <!-- E -->
     <div id="effect-boxE" class="effect-box">
         <div class="logo"></div>
     </div>
-    <button id="btnE">画像の一部分のみ表示</button>
+    <button id="btnE" class="btn btn-primary">画像の一部分のみ表示</button>
 
     <!-- F -->
     <div id="effect-boxF" class="effect-box">
         <div class="logo on-transition">サンプル／サンプル／サンプル　　</div>
     </div>
-    <button id="btnF">画像によるマスク</button>
+    <button id="btnF" class="btn btn-primary">画像によるマスク</button>
 
     <!-- G -->
     <div id="effect-boxG" class="effect-box">
         <div class="logo on-transition">サンプル／サンプル／サンプル</div>
     </div>
-    <button id="btnG1">X軸回転</button>
-    <button id="btnG2">Y軸回転</button>
-    <button id="btnG3">Z軸回転</button>
+    <button id="btnG1" class="btn btn-primary">X軸回転</button>
+    <button id="btnG2" class="btn btn-primary">Y軸回転</button>
+    <button id="btnG3" class="btn btn-primary">Z軸回転</button>
 
     <!-- H -->
     <div id="effect-boxH" class="effect-box">
         <div class="logo on-transition">サンプル／サンプル／サンプル</div>
     </div>
-    <button id="btnH">台形や菱型への歪み変形</button>
+    <button id="btnH" class="btn btn-primary">台形や菱型への歪み変形</button>
 
     <!-- I -->
     <div id="effect-boxI" class="effect-box">
         <img src="back.jpg" class="on-transition" />
     </div>
-    <button id="btnI">フィルター（セピア）</button>
+    <button id="btnI" class="btn btn-primary">フィルター（セピア）</button>
 
     <!-- J -->
     <div id="effect-boxJ" class="effect-box">
         <img src="back.jpg" class="on-transition" />
     </div>
-    <button id="btnJ">フィルター（ぼかし）</button>
+    <button id="btnJ" class="btn btn-primary">フィルター（ぼかし）</button>
 
 
+    <div id="bottom-space"></div>
+    
     <script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
     <script>
 
