@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Canvasを利用</title>
+    <style>
+        canvas {
+            display: block;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script>
+
+        window.addEventListener("DOMContentLoaded", function (e) {
+            var canvas = document.getElementById("canvas");
+
+            var ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, 600, 400);
+            
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, 600, 400);
+
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "#fff";
+            ctx.fillStyle = "#33f";
+
+            ctx.beginPath();
+            ctx.arc(100, 100, 40, 0, Math.PI*2, false);
+            ctx.fill();
+            ctx.stroke();
+            
+        });
+
+    </script>
+</body>
+</html>
