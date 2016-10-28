@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>いろはことば</title>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Yu Gothic';
+        }
+        .container-q {
+            margin: 50px;
+        }
+        .panel-heading {
+            font-size: 5rem;
+        }
+        #prefix {
+        }
+        #question {
+            padding: 30px 30px 0px;
+            text-align: center;
+            font-size: 12rem;
+            font-weight: bold;
+            height: 400px;
+            /*color: #f12d2d;*/
+        }
+        #question .special {
+            color: #0094ff;
+        }
+        #kaitou {
+        }
+        #count {
+            padding: 0px;
+            text-align: center;
+            font-size: 18rem;
+            color: #f12d2d;
+        }
+        #buttonBox {
+            text-align: center;
+        }
+        #next {
+            background-color: #0094ff;
+            color: #fff;
+            padding: 30px 40px;
+            text-align: center;
+            font-size: 6rem;
+            margin-top: 80px;
+            border: none;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-q">
+        <div class="panel panel-default">
+            <div class="panel-heading" id="prefix">○で始まる</div>
+            <div class="panel-body" id="question">いろはことば</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading" id="kaitou">解答時間</div>
+                    <div class="panel-body" id="count">10</div>
+                </div>
+            </div>
+            <div class="col-md-6" id="buttonBox"><button id="next">次の問題</button></div>
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    var q = [
+        "国",
+        "都市・地域・市町村",
+        "地図に書いてあるもの",
+        "歴史上の人物",
+        "男性",
+        "女性",
+        "動物",
+        "鳥類",
+        "魚",
+        "植物",
+        "鉱物",
+        "花",
+        "昆虫",
+        "単位",
+        "赤いもの",
+        "白いもの",
+        "黒いもの",
+        "青いもの",
+        "黄色いもの",
+        "飲み物",
+        "菓子",
+        "野菜・果物",
+        "料理",
+        "動詞",
+        "ことわざ",
+        "英単語",
+        "Wikipediaに載っているもの",
+        "スポーツ選手",
+        "企業",
+        "すしネタ",
+        "実在しないもの",
+        "形の有るもの",
+        "形の無いもの",
+        "丸いもの",
+        "四角いもの",
+        "テレビ番組",
+        "芸能人",
+        "歌",
+        "映画",
+        "アニメ・漫画・ゲーム",
+        "キャラクター",
+        "IT用語",
+        "家にあるもの",
+        "外にあるもの",
+        "日本にあるもの",
+        "海外にあるもの",
+        "この部屋にあるもの",
+        "数字が含まれる言葉",
+        "観光地",
+        "乗り物",
+        "長音「ー」の入る単語",
+        "７文字以上の単語",
+        "漢字４文字の単語",
+        "撥音「っ」の入る単語",
+        "半濁音「 ゜」の入る単語",
+        "緑色のもの",
+        "光るもの・輝くもの",
+        "家電・調理器具",
+        // "武器・防具・アイテム",
+        "駅名",
+        "小さい「ゃゅょ」が入ることば",
+        "３文字のことば",
+        "４文字のことば",
+        "５文字のことば",
+        "漢字３文字のことば",
+        "学校にあるもの",
+        "古いもの",
+        "大きいもの",
+        "長いもの",
+        "重いもの",
+        "新しいもの",
+        "小さいもの",
+        "軽いもの",
+        "走るもの",
+        "回るもの",
+        "飛ぶもの",
+        "なんでもあり",
+        "<span class='special'>全員、1マス戻る</span>",
+        "<span class='special'>全員、1マス戻る</span>",
+        "<span class='special'>全員、2マス戻る</span>",
+        "<span class='special'>1位以外は、1マス進む</span>"
+    ];
+
+    $(function () {
+
+        var showQuestion = function () {
+            var idx = Math.floor(Math.random() * q.length);
+            var s = q.splice(idx, 1);
+            $("#question").html(s);
+
+            countUp(10);
+        }
+
+        var countUp = function (n) {
+
+            $("#count").text(n);
+
+            if (n > 0) {
+                setTimeout(function () {
+                    countUp(n - 1);
+                }, 1000);
+            }
+        }
+
+        $("#next").on("click", function () {
+            $("#question").html("　");
+            $("#count").text("　");
+            setTimeout(function () {
+                showQuestion();
+            }, 2000);
+        });
+
+    });
+</script>
+</body>
+</html>
